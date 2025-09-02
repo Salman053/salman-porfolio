@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={false}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
