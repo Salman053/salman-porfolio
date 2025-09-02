@@ -9,9 +9,10 @@ import {
   ChevronRight,
   Quote,
 } from "lucide-react";
-import { collection, Firestore, getDocs } from "firebase/firestore";
+import { collection, Firestore, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase";
 import { formatDate } from "@/lib/date-utils";
+import { useFirestoreData } from "@/hooks/use-firebase-data";
 
 interface FeedbackData {
   email: string;
@@ -71,48 +72,19 @@ const FeedbackShowcase = () => {
   const [isHovered, setIsHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-
-  const getAllFeedback = async () => {
-    try {
-      const feedbackCollection = collection(db, "portfolio-feedback");
-      const querySnapshot = await getDocs(feedbackCollection);
-      const firebaseData: FeedbackData[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-        firebaseData.push({
-          id: doc.id,
-          email: data.email || "",
-          note: data.note || "",
-          rating: data.rating || 0,
-          timestamp: data.timestamp || new Date().toISOString(),
-        });
-      });
-
-      // Combine Firebase data with mock data
-      const combinedData = [...firebaseData, ...mockFeedback];
-      
-      // Remove duplicates based on email (optional)
-      const uniqueData = combinedData.filter((item, index, self) =>
-        index === self.findIndex((t) => t.email === item.email)
-      );
-      
-      setFeedbackData(uniqueData);
-    } catch (error) {
-      console.error("Error getting feedback documents:", error);
-      // Fallback to mock data if there's an error
-      setFeedbackData(mockFeedback);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { feedbacks, loading, error } = useFirestoreData();
 
   useEffect(() => {
-    getAllFeedback();
-  }, []);
+    const combinedData = [...feedbacks, ...mockFeedback];
+
+    // Remove duplicates based on email (optional)
+    const uniqueData = combinedData.filter(
+      (item, index, self) =>
+        index === self.findIndex((t) => t.email === item.email)
+    );
+
+    setFeedbackData(uniqueData);
+  }, [feedbacks]);
 
   // Auto-rotate testimonials
   useEffect(() => {
@@ -127,7 +99,7 @@ const FeedbackShowcase = () => {
 
   // Display loading/error states in your component
   if (loading) {
-    return <FeedbackLoader/>;
+    return <FeedbackLoader />;
   }
 
   if (error) {
@@ -367,24 +339,21 @@ const AnimatedBackground = () => {
   );
 };
 
-
-
-
 // Loading Component
 const FeedbackLoader = () => {
   return (
     <div className="w-full py-16 rounded-3xl overflow-hidden relative flex items-center justify-center h-96">
       <AnimatedBackground />
-      
+
       <div className="text-center mb-12 relative z-10">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent"
         >
           Visitor Feedback
         </motion.h2>
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -393,7 +362,7 @@ const FeedbackLoader = () => {
           What people are saying about my work
         </motion.p>
       </div>
-      
+
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <motion.div
           className="flex flex-col items-center justify-center"

@@ -9,7 +9,6 @@ import {
 } from "../ui/animated-modal";
 import { motion } from "motion/react";
 import { Star } from "lucide-react";
-import { Button } from "../ui/button";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 import { toast } from "sonner";
