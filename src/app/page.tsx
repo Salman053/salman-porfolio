@@ -1,5 +1,6 @@
 "use client";
 
+import FeedBackModal from "@/components/shared/feeback-Modal";
 import BentoGrid from "../components/animated/grid/bento-grid";
 import Skills from "../components/animated/skills";
 import AboutSection from "../components/shared/about-section";
@@ -29,6 +30,7 @@ export default function Page() {
       <AboutSection />
       <AnimatedContactForm />
       <Footer/> 
+          <FeedBackModal/>
     </main>
   );
 }

@@ -176,9 +176,9 @@ const WhyHireMe = () => {
         <div className="section-header">
           <h2 className="section-title">
             <span className="title-main ">Why Hire</span>
-            <span className="title-accent ">Me?</span>
+            <span className="title-accent  ">Me?</span>
           </h2>
-          <p className="section-subtitle text-xl">
+          <p className="section-subtitle text-foreground   text-xl">
             Every detail matters: I create visually stunning and intuitive
             interfaces that reflect your brand&apos;s personality.
           </p>

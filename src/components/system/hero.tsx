@@ -2,17 +2,15 @@
 "use client";
 import { motion } from "framer-motion";
 import { site } from "@/content/site";
-import GitHubStarButton from "../animated/github-star-button";
 import Scene from "../3d/scene";
 import GridDistortion from "../animated/grid-distortion";
-import image from "@/assets/images/background.webp";
 
 export default function Hero() {
   return (
     <section className="section pt-28">
       <div style={{ width: "100%", height: "900px", position: "absolute" }}>
         <GridDistortion
-          imageSrc={image.src}
+          imageSrc=""
           grid={10}
           mouse={0.1}
           strength={0.15}
@@ -53,7 +51,6 @@ export default function Hero() {
             </a>
           </div>
           <div className="mt-6 flex gap-4">
-            <GitHubStarButton repo={site.projects[0].repo} />
             {site.social.map((s) => (
               <a
                 key={s.label}

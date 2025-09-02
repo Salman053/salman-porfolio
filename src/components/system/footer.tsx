@@ -73,51 +73,9 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="#home"
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#projects"
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300"
-                >
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#skills"
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300"
-                >
-                  Skills
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  className="text-gray-400 hover:text-foreground transition-colors duration-300"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
+           <QuickLinks/>
           </div>
 
-    
           {/* Services */}
           <div>
             <h4 className="text-lg font-semibold mb-6">Services</h4>
@@ -222,3 +180,33 @@ const Footer = () => {
 };
 
 export default Footer;
+
+
+
+const quickLinks = [
+  { name: "Home", link: "#home" },
+  { name: "Services", link: "#services" },
+  { name: "Projects", link: "#projects" },
+  { name: "Experience", link: "#experience" },
+  { name: "Education", link: "#education" },
+  { name: "Why", link: "#why" },
+  { name: "Testimonial", link: "#testimonial" },
+  { name: "About", link: "#about" },
+  { name: "Contact", link: "#contact" },
+];
+
+const QuickLinks = () => {
+  return (
+    <div className="grid grid-cols-2 flex-col justify-center gap-4">
+      {quickLinks.map((item, index) => (
+        <a
+          key={index}
+          href={item.link}
+          className="text-gray-300 hover:text-white transition-colors duration-300"
+        >
+          {item.name}
+        </a>
+      ))}
+    </div>
+  );
+};
