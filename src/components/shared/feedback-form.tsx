@@ -12,6 +12,7 @@ import { Star } from "lucide-react";
 import { Button } from "../ui/button";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
+import { toast } from "sonner";
 
 export function FeedbackModal() {
   const [rating, setRating] = useState(0);
@@ -20,7 +21,6 @@ export function FeedbackModal() {
   const [email, setEmail] = useState("");
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   const images = [
     "https://images.unsplash.com/photo-1517322048670-4fba75cbbb62?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -32,12 +32,15 @@ export function FeedbackModal() {
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      setError("Please provide a rating");
+      toast.error("Please provide a rating");
+      return;
+    }
+    if (note.length < 3) {
+      toast.error("Please add more than three characters ");
       return;
     }
 
     setIsSubmitting(true);
-    setError("");
 
     try {
       // Add document to Firestore
@@ -48,7 +51,9 @@ export function FeedbackModal() {
         timestamp: serverTimestamp(),
         pageUrl: window.location.href,
         userAgent: navigator.userAgent,
-      });
+      }).then(()=>{
+        toast.success("Feedback added successfully")
+      })
 
       setSubmitted(true);
       setTimeout(() => {
@@ -60,13 +65,13 @@ export function FeedbackModal() {
       }, 2000);
     } catch (err) {
       console.error("Error adding document: ", err);
-      setError("Failed to submit feedback. Please try again.");
+      toast.error("Failed to submit feedback. Please try again.");
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="">
+    <>
       <Modal>
         <ModalTrigger className="bg-gradient-to-r bg-secondary z-[100] text-black fixed bottom-20 right-4 animate-bounce flex justify-center group/modal-btn px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-700">
           😊 Hi
@@ -118,16 +123,7 @@ export function FeedbackModal() {
                   ))}
                 </motion.div>
 
-                {/* Error Message */}
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center text-red-500 mb-4 text-sm"
-                  >
-                    {error}
-                  </motion.div>
-                )}
+             
 
                 {/* Feedback Form */}
                 <motion.div
@@ -137,6 +133,7 @@ export function FeedbackModal() {
                   className="space-y-4"
                 >
                   <textarea
+                  required
                     placeholder="What did you like most? How can we improve?"
                     className="w-full p-4 border border-gray-200 dark:border-neutral-700 rounded-xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-neutral-800"
                     rows={4}
@@ -243,7 +240,7 @@ export function FeedbackModal() {
           </ModalFooter>
         </ModalBody>
       </Modal>
-    </div>
+    </>
   );
 }
 
