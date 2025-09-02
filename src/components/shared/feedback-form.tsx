@@ -73,8 +73,8 @@ export function FeedbackModal() {
   return (
     <>
       <Modal>
-        <ModalTrigger className="bg-gradient-to-r bg-secondary z-[100] text-black fixed bottom-20 right-4 animate-bounce flex justify-center group/modal-btn px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-700">
-          😊 Hi
+        <ModalTrigger className="bg-gradient-to-r bg-secondary z-[100] text-black fixed bottom-20 right-4 animate-bounce flex justify-center group/modal-btn pr-6 pl-4 py-3 shadow-lg hover:shadow-xl transition-all duration-700">
+          😊 Feedback
         </ModalTrigger>
         <ModalBody>
           <ModalContent>
