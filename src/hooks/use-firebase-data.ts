@@ -52,10 +52,10 @@ export const useFirestoreData = () => {
             }
         }
 
-        if (userId) {
+       
             fetchData()
-        }
-    }, [userId])
+        
+    }, [])
 
     const handleError = (error: any) => {
         console.error("Error fetching data:", error)
