@@ -1,0 +1,35 @@
+"use client";
+import BentoGrid from "@/components/animated/grid/bento-grid";
+
+import Skills from "@/components/animated/skills";
+import AboutSection from "@/components/shared/about-section";
+import AnimatedContactForm from "@/components/shared/contact-form";
+import ContactSection from "@/components/shared/contact-us";
+import EducationTimeline from "@/components/shared/educational-timeline";
+import ExperienceTimeline from "@/components/shared/experience-timeline";
+import HeroText from "@/components/shared/hero-text";
+import ServicesSection from "@/components/shared/services";
+import TestimonialSection from "@/components/shared/testimonal";
+import WhyHireMe from "@/components/shared/why-hire/why-hire-me";
+import Footer from "@/components/system/footer";
+import Navbar from "@/components/system/navbar";
+
+export default function Page() {
+  return (
+    <main className="relative">
+      {/* <CardSwapComp/> */}
+      <Navbar />
+      <HeroText />
+      <ServicesSection />
+      <Skills />
+      <BentoGrid />
+      <ExperienceTimeline />
+      <WhyHireMe />
+      <EducationTimeline />
+      <TestimonialSection />
+      <AboutSection />
+      <AnimatedContactForm />
+      <Footer/> 
+    </main>
+  );
+}
