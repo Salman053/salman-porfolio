@@ -51,7 +51,7 @@ const MagicSecondaryButton = ({
       onClick={onClick}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="relative px-8 py-4 rounded-2xl overflow-hidden border-0 outline-none cursor-pointer bg-transparent"
+      className="relative px-5 py-3 rounded-2xl overflow-hidden border-0 outline-none cursor-pointer bg-transparent"
       style={{
         boxShadow: "0 4px 15px rgba(0, 0, 0, 0.1)",
         transform: "translateZ(0)",
@@ -129,7 +129,7 @@ const MagicSecondaryButton = ({
             backgroundImage: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           }}
           animate={{ 
-            scale: isHovered ? 1.1 : 1,
+            scale: isHovered ? 1.03 : 1,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 15 }}
         >

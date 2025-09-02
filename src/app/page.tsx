@@ -16,7 +16,7 @@ import Navbar from "../components/system/navbar";
 
 export default function Page() {
   return (
-    <main className="relative">
+    <main className="relative overflow-hidden">
       {/* <CardSwapComp/> */}
       <Navbar />
       <HeroText />

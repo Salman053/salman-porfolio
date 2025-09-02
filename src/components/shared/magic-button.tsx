@@ -51,7 +51,7 @@ const MagicButton = ({
       onClick={onClick}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="relative px-8 py-4 rounded-2xl overflow-hidden border-0 outline-none cursor-pointer"
+      className="relative px-5 py-2 rounded-2xl overflow-hidden border-0 outline-none cursor-pointer"
       style={{
         background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         boxShadow: "0 10px 30px rgba(118, 75, 162, 0.5)",
@@ -120,7 +120,7 @@ const MagicButton = ({
         <motion.span
           className="text-white text-lg font-semibold tracking-wide"
           animate={{ 
-            scale: isHovered ? 1.1 : 1,
+            scale: isHovered ? 1.04 : 1,
           }}
           transition={{ type: "spring", stiffness: 500, damping: 15 }}
         >

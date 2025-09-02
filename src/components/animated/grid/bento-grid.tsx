@@ -168,7 +168,7 @@ const Card = ({
 
 const CardHomeFeatures = () => {
   return (
-    <section id="projects" className="card-home-features-section bg-background">
+    <section id="projects"  className="card-home-features-section bg-background">
       {/* Floating Background Elements */}
       <div className="card-home-features-orb card-home-features-orb-1"></div>
       <div className="card-home-features-orb card-home-features-orb-2"></div>

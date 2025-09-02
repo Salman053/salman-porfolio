@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import MagicButton from "./magic-button";
 import MagicSecondaryButton from "./magic-secondary-button";
 import { Sparkles, ArrowDown, Github, Linkedin, Download } from "lucide-react";
+import EarthBanner from "./earth-banner";
 
 const HeroText = () => {
   const scrollToSection = (id: string) => {
@@ -13,13 +14,13 @@ const HeroText = () => {
 
   return (
     <HeroHighlight 
-      containerClassName="relative h-screen flex flex-col items-center justify-center overflow-hidden"
+      containerClassName="relative h-screen  flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Animated background elements */}
-      
+      <EarthBanner className="absolute opacity-75 top-20 flex items-center justify-center"/>
 
       {/* Main content */}
-      <section id="intro" className="relative z-10 flex flex-col items-center justify-center text-center px-4">
+      <section id="intro" className="relative z-10 -mt-6  flex flex-col items-center justify-center text-center px-4">
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -36,7 +37,7 @@ const HeroText = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
-          className="text-4xl md:text-5xl  font-bold text-neutral-700 dark:text-white max-w-6xl leading-tight lg:leading-tight mb-6"
+          className="text-3xl md:text-4xl  font-bold text-neutral-700 dark:text-white max-w-6xl leading-tight lg:leading-tight mb-6"
         >
           Transforming <Highlight className="bg-purple-500/20 text-purple-300">ideas</Highlight> into{" "}
           <Highlight className="bg-cyan-500/20 text-cyan-300">digital experiences</Highlight>
