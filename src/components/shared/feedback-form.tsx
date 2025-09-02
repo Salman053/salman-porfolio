@@ -51,11 +51,11 @@ export function FeedbackModal() {
         timestamp: serverTimestamp(),
         pageUrl: window.location.href,
         userAgent: navigator.userAgent,
-      }).then(()=>{
-        toast.success("Feedback added successfully")
-      })
+      }).then(() => {
+        toast.success("Thanks for your feedback");
+        setSubmitted(false);
+      });
 
-      setSubmitted(true);
       setTimeout(() => {
         // Reset form after success
         setRating(0);
@@ -123,8 +123,6 @@ export function FeedbackModal() {
                   ))}
                 </motion.div>
 
-             
-
                 {/* Feedback Form */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -133,7 +131,7 @@ export function FeedbackModal() {
                   className="space-y-4"
                 >
                   <textarea
-                  required
+                    required
                     placeholder="What did you like most? How can we improve?"
                     className="w-full p-4 border border-gray-200 dark:border-neutral-700 rounded-xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-neutral-800"
                     rows={4}
@@ -204,13 +202,7 @@ export function FeedbackModal() {
           <ModalFooter className="gap-4">
             {!submitted ? (
               <>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-gray-200 text-black dark:bg-neutral-800 dark:text-white border border-gray-300 rounded-xl text-sm"
-                >
-                  Cancel
-                </motion.button>
+                
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -231,7 +223,9 @@ export function FeedbackModal() {
                 className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm rounded-xl"
                 onClick={() => {
                   // This will close the modal
-                  document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+                  document.dispatchEvent(
+                    new KeyboardEvent("keydown", { key: "Escape" })
+                  );
                 }}
               >
                 Close

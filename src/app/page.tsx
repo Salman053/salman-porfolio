@@ -15,9 +15,10 @@ import Footer from "../components/system/footer";
 import Navbar from "../components/system/navbar";
 import { useEffect, useState } from "react";
 import LoadingScreen from "./loading";
+import FeedbackMarquee from "@/components/shared/feedback-marque";
 
 export default function Page() {
-   const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Simulate loading your portfolio content
@@ -27,8 +28,8 @@ export default function Page() {
 
     return () => clearTimeout(timer);
   }, []);
-  if(isLoading){
-    return <LoadingScreen/>
+  if (isLoading) {
+    return <LoadingScreen />;
   }
   return (
     <main className="relative overflow-hidden">
@@ -44,8 +45,10 @@ export default function Page() {
       <TestimonialSection />
       <AboutSection />
       <AnimatedContactForm />
-      <Footer/> 
-          <FeedBackModal/>
+      <FeedbackMarquee />
+
+      <Footer />
+      <FeedBackModal />
     </main>
   );
 }
