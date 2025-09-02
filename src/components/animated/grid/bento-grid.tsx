@@ -5,10 +5,6 @@ import { ArrowUpRight } from "lucide-react";
 import "./grid.css";
 import { WobbleCard } from "@/components/ui/wobble-card";
 import { cn } from "@/lib/utils";
-import StarsCanvas from "../start-background";
-import AnimatedBackground from "../animated-background";
-import GridDistortion from "../grid-distortion";
-import Encryption from "../encryption";
 import Image from "next/image";
 interface CardProps {
   src?: string;
