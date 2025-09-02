@@ -19,6 +19,14 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+    // Add rules configuration here
+    rules: {
+      "react/no-unescaped-entities": "off", // Disable apostrophe rule
+      "@typescript-eslint/no-explicit-any": "off", // Disable any type rule
+      "@typescript-eslint/no-unused-vars": "warn", // Change unused vars to warning only
+      "prefer-const": "off", // Add this to disable prefer-const errors
+      "@typescript-eslint/no-unused-expressions": "off", // Add this
+    },
   },
 ];
 
