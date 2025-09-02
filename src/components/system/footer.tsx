@@ -202,7 +202,7 @@ const QuickLinks = () => {
         <a
           key={index}
           href={item.link}
-          className="text-gray-300 hover:text-white transition-colors duration-300"
+          className="text-foreground/70 hover:text-foreground transition-colors duration-300"
         >
           {item.name}
         </a>

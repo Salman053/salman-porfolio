@@ -196,7 +196,7 @@ const WhyHireMe = () => {
         </div>
 
         {/* Bottom Stats */}
-        <div className="features-stats cursor-default">
+        <div className="features-stats text-foreground cursor-default">
           <div className="stat-group">
             <CodeXml size={20} />
             <span>Trusted, Secure Code</span>

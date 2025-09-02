@@ -222,9 +222,9 @@ export default function EarthBanner({
           }}
           animate={{
             scale: isHovered ? 1.1 : 1,
-            filter: isHovered
-              ? "brightness(1) saturate(1.1) drop-shadow(0 0 30px rgba(255,255,255,0.3))"
-              : "brightness(1) saturate(1)",
+            // filter: isHovered
+            //   ? "brightness(0.7) saturate(1.1) drop-shadow(0 0 30px rgba(255,255,255,0.3))"
+            //   : "brightness(0.8) saturate(1)",
             boxShadow: isHovered
               ? [
                   "0px 0 50px rgba(255, 255, 255, 0.3)",
@@ -267,7 +267,7 @@ export default function EarthBanner({
             className="absolute inset-0 rounded-full pointer-events-none"
             animate={{
               background: isHovered
-                ? "radial-gradient(circle at 30% 30%, rgba(135, 206, 235, 0.3) 0%, transparent 70%)"
+                ? "radial-gradient(circle at 30% 30%, rgba(135, 206, 235, 0.3) 0%, transparent 40%)"
                 : "transparent",
             }}
             transition={{ duration: 0.6 }}

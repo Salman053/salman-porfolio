@@ -17,7 +17,7 @@ const HeroText = () => {
       containerClassName="relative h-screen  flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Animated background elements */}
-      <EarthBanner className="absolute opacity-75 top-20 flex items-center justify-center"/>
+      <EarthBanner className="absolute opacity-90 top-20 flex items-center justify-center"/>
 
       {/* Main content */}
       <section id="intro" className="relative z-10 -mt-6  flex flex-col items-center justify-center text-center px-4">

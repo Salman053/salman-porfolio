@@ -94,7 +94,7 @@ export default function ExperienceTimeline() {
   };
 
   return (
-    <section id="experience" className="relative mb-12 py-20 overflow-hidden">
+    <section id="experience" className="relative mb-12 mt-4 py-20 overflow-hidden">
       {/* === Animated Background Elements === */}
       <motion.div
         className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/20 blur-3xl"
