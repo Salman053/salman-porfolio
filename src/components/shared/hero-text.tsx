@@ -39,10 +39,10 @@ const HeroText = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="text-3xl md:text-4xl  font-bold text-neutral-700 dark:text-white max-w-6xl leading-tight lg:leading-tight mb-6"
         >
-          Transforming <Highlight className="bg-purple-500/20 text-purple-300">ideas</Highlight> into{" "}
-          <Highlight className="bg-cyan-500/20 text-cyan-300">digital experiences</Highlight>
+          Transforming <Highlight className="bg-purple-500/80 text-white ">ideas</Highlight> into{" "}
+          <Highlight className="bg-cyan-500/10 text-cyan-300">digital experiences</Highlight>
           <br />
-          I'm <Highlight className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">Salman Khan</Highlight>, a passionate developer
+          I'm <Highlight className="bg-gradient-to-r from-purple-500/60 to-pink-500/40 text-white">Salman Khan</Highlight>, a passionate developer
         </motion.h1>
 
         {/* Subtitle */}

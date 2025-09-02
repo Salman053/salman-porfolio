@@ -159,7 +159,7 @@ const WhyHireMe = () => {
     <section
       ref={sectionRef}
       id="why"
-      className={`bg-background ${sectionVisible ? "visible" : ""}`}
+      className={`bg-background p-5 ${sectionVisible ? "visible" : ""}`}
     >
       {/* Background Elements Blue Circle */}
       <div className="section-background">

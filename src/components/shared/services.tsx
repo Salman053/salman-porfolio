@@ -45,7 +45,6 @@ const services = [
     color: "green",
   },
 ];
-
 export default function ServicesSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -156,27 +155,32 @@ const ServiceCard = ({ service, index, isInView }: { service: any; index: number
       onHoverEnd={() => setIsHovered(false)}
       className="relative rounded-2xl border border-border bg-card/90 backdrop-blur-sm p-8 shadow-sm hover:shadow-lg transition-all duration-500 group overflow-hidden"
     >
-      {/* Animated gradient border */}
-      <motion.div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100"
-        style={{
-          // background: `linear-gradient(45deg, var(--color-${service.color}-500), var(--color-${service.color}-300), var(--color-${service.color}-500))`,
-          backgroundSize: "200% 200%",
-        }}
-        animate={{
-          backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%",
-        }}
-        transition={{ 
-          backgroundPosition: { duration: 2, repeat: Infinity, ease: "linear" },
-        }}
-      />
+      {/* Geometric background pattern */}
+      <div className="absolute inset-0 -z-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
+        <svg className="w-full h-full" viewBox="0 0 100 100">
+          <path
+            d="M0,0 L100,0 L100,100 L0,100 Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.5"
+          />
+          <line x1="0" y1="30" x2="100" y2="30" stroke="currentColor" strokeWidth="0.3" />
+          <line x1="0" y1="60" x2="100" y2="60" stroke="currentColor" strokeWidth="0.3" />
+          <line x1="30" y1="0" x2="30" y2="100" stroke="currentColor" strokeWidth="0.3" />
+          <line x1="60" y1="0" x2="60" y2="100" stroke="currentColor" strokeWidth="0.3" />
+        </svg>
+      </div>
       
-      {/* Background shine effect */}
+      {/* Animated gradient orb */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-        initial={{ x: "-100%", skewX: "-20deg" }}
-        animate={{ x: isHovered ? "200%" : "-100%" }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="absolute -right-10 -top-10 w-32 h-32 rounded-full opacity-20 group-hover:opacity-30 blur-xl"
+        animate={{
+          background: isHovered 
+            ? [`radial-gradient(circle, #3b82f6, transparent)`, `radial-gradient(circle, #ec4899, transparent)`]
+            : `radial-gradient(circle, #8b5cf6, transparent)`,
+          scale: isHovered ? [1, 1.2, 1] : 1,
+        }}
+        transition={{ duration: 4, repeat: Infinity }}
       />
       
       {/* Content */}
@@ -192,19 +196,19 @@ const ServiceCard = ({ service, index, isInView }: { service: any; index: number
             repeat: isHovered ? Infinity : 0,
             ease: "easeInOut"
           }}
-          className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-white to-gray-100 shadow-sm"
+          className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 text-white shadow-lg"
         >
           {service.icon}
         </motion.div>
 
         {/* Title */}
-        <h3 className="text-xl font-semibold text-foreground mb-3">
+        <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-500">
           {service.title}
         </h3>
 
         {/* Description */}
         <motion.p 
-          className="text-muted-foreground leading-relaxed"
+          className="text-muted-foreground leading-relaxed group-hover:text-foreground/90 transition-colors duration-500"
           initial={{ opacity: 0.8 }}
           animate={{ opacity: isHovered ? 1 : 0.8 }}
         >
@@ -213,7 +217,7 @@ const ServiceCard = ({ service, index, isInView }: { service: any; index: number
         
         {/* Hover indicator line */}
         <motion.div 
-          className="h-1 mt-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
+          className="h-1 mt-4 bg-gradient-to-r from-blue-500/10 to-purple-500/20 rounded-full"
           initial={{ width: "0%" }}
           animate={{ width: isHovered ? "100%" : "0%" }}
           transition={{ duration: 0.3 }}
@@ -223,32 +227,43 @@ const ServiceCard = ({ service, index, isInView }: { service: any; index: number
       {/* Floating particles on hover */}
       {isHovered && (
         <>
-          {[...Array(5)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute rounded-full opacity-70"
+              className="absolute rounded-full"
               style={{
-                background: `var(--color-${service.color}-500)`,
-                width: `${Math.random() * 6 + 2}px`,
-                height: `${Math.random() * 6 + 2}px`,
+                background: `linear-gradient(45deg, ${service.color || "#3b82f6"}, ${service.accentColor || "#8b5cf6"})`,
+                width: `${Math.random() * 8 + 4}px`,
+                height: `${Math.random() * 8 + 4}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
               }}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ 
-                opacity: [0, 1, 0],
-                y: [0, -30],
-                x: [0, (Math.random() - 0.5) * 20],
+                opacity: [0, 0.8, 0],
+                y: [0, -40],
+                x: [0, (Math.random() - 0.5) * 30],
               }}
               transition={{
-                duration: Math.random() * 1 + 1,
+                duration: Math.random() * 1.5 + 1,
                 ease: "easeOut",
-                delay: i * 0.1,
+                delay: i * 0.2,
               }}
             />
           ))}
         </>
       )}
+      
+      {/* Subtle border glow on hover */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl border-2 pointer-events-none"
+        initial={{ opacity: 0, borderColor: "transparent" }}
+        animate={{ 
+          opacity: isHovered ? 1 : 0,
+          borderColor: isHovered ? ["#3b82f6", "#8b5cf6", "#3b82f6"] : "transparent"
+        }}
+        transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
+      />
     </motion.div>
   );
 };
