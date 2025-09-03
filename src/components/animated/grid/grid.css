@@ -85,7 +85,7 @@
    =================================== */
 .card-home-features-container {
   margin: 0 auto;
-  padding: 0 var(--spacing-xl);
+  /* padding: 0 var(--spacing-xl); */
   max-width: 80rem;
 }
 
@@ -561,7 +561,7 @@
 
 @media (min-width: 1280px) {
   .card-home-features-container {
-    padding: 0 var(--spacing-2xl);
+    /* padding: 0 var(--spacing-2xl); */
   }
 
   .card-home-features-section {
@@ -574,7 +574,7 @@
    =================================== */
 @media (max-width: 480px) {
   .card-home-features-section {
-    padding: var(--spacing-2xl) 0;
+    /* padding: var(--spacing-2xl) 0; */
   }
 
   .card-home-features-intro {

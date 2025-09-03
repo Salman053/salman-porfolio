@@ -1,7 +1,6 @@
 "use client";
 
 import FeedBackModal from "@/components/shared/feeback-Modal";
-import BentoGrid from "../components/animated/grid/bento-grid";
 import Skills from "../components/animated/skills";
 import AboutSection from "../components/shared/about-section";
 import AnimatedContactForm from "../components/shared/contact-form";
@@ -16,6 +15,7 @@ import Navbar from "../components/system/navbar";
 import { useEffect, useState } from "react";
 import LoadingScreen from "./loading";
 import FeedbackMarquee from "@/components/shared/feedback-marque";
+import CardHomeFeatures from "../components/animated/grid/bento-grid";
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +38,7 @@ export default function Page() {
       <HeroText />
       <ServicesSection />
       <Skills />
-      <BentoGrid />
+      <CardHomeFeatures />
       <ExperienceTimeline />
       <WhyHireMe />
       <EducationJourney />

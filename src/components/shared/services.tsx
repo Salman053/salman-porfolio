@@ -47,7 +47,7 @@ const services = [
 ];
 export default function ServicesSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  // const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
     <section id="services" className="relative py-24 px-6 md:px-12 bg-background overflow-hidden">
@@ -108,8 +108,6 @@ export default function ServicesSection() {
       {/* Heading */}
       <motion.div 
         className="text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6 }}
       >
         <h2 className="text-4xl md:text-5xl font-bold text-foreground">
@@ -117,8 +115,6 @@ export default function ServicesSection() {
         </h2>
         <motion.p 
           className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           Delivering clean, reliable, and scalable solutions that bring real
@@ -129,22 +125,20 @@ export default function ServicesSection() {
       {/* Grid */}
       <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {services.map((service, i) => (
-          <ServiceCard key={i} service={service} index={i} isInView={isInView} />
+          <ServiceCard key={i} service={service} index={i}  />
         ))}
       </div>
     </section>
   );
 }
 
-const ServiceCard = ({ service, index, isInView }: { service: any; index: number; isInView: boolean }) => {
+const ServiceCard = ({ service, index,  }: { service: any; index: number; }) => {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
   
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 10 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ 
         scale: 1.03, 

@@ -5,13 +5,11 @@ import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { useState, useEffect } from "react"
 
 export const useFirestoreData = () => {
-    // console.log(userId)
     const [feedbacks, setFeedbacks] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        // console.log(userId)
 
         const fetchData = () => {
             setLoading(true)

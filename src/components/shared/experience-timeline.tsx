@@ -2,7 +2,13 @@
 import { motion } from "framer-motion";
 import { Badge } from "../ui/badge";
 import { useState } from "react";
-import { ChevronDown, ChevronUp, MapPin, Calendar, Building } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  MapPin,
+  Calendar,
+  Building,
+} from "lucide-react";
 
 export const timeline = [
   {
@@ -80,6 +86,35 @@ export const timeline = [
     },
     tech: ["React.js", "Node.js", "MongoDB", "Express.js", "Tailwind CSS"],
   },
+  {
+    id: 4,
+    title: "Academy Management System",
+    company: "Freelance Local Client Project ",
+    location: "Remote",
+    period: "2024",
+    type: "Project",
+    details: {
+      responsibilities: [
+        "Developed comprehensive dashboard for overview of all academy operations with real-time sync",
+        "Built management modules for courses, instructors, students, and batches",
+        "Implemented financial tracking system for expenses and fee management",
+        "Created project tracking and reporting functionalities",
+        "Integrated notifications and reporting for all academy operations",
+      ],
+      achievements: [
+        "Centralized all academy management operations into a single platform",
+        "Improved operational efficiency by providing real-time insights into all academy activities",
+        "Enhanced financial tracking and reporting capabilities",
+      ],
+    },
+    tech: [
+      "React.js with TypeScript",
+      "Firebase",
+      "shadcn",
+      "Framer Motion",
+      "Tailwind CSS",
+    ],
+  },
 ];
 
 export default function ExperienceTimeline() {
@@ -87,14 +122,17 @@ export default function ExperienceTimeline() {
 
   const toggleItem = (id: number) => {
     if (expandedItems.includes(id)) {
-      setExpandedItems(expandedItems.filter(item => item !== id));
+      setExpandedItems(expandedItems.filter((item) => item !== id));
     } else {
       setExpandedItems([...expandedItems, id]);
     }
   };
 
   return (
-    <section id="experience" className="relative mb-12 mt-4 py-20 overflow-hidden">
+    <section
+      id="experience"
+      className="relative mb-12 mt-4 py-20 overflow-hidden"
+    >
       {/* === Animated Background Elements === */}
       <motion.div
         className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/20 blur-3xl"
@@ -112,14 +150,17 @@ export default function ExperienceTimeline() {
         transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      <motion.h2 
+      <motion.h2
         className="relative text-4xl md:text-5xl font-bold text-center mb-16"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
       >
-        Professional <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">Journey</span>
+        Professional{" "}
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
+          Journey
+        </span>
       </motion.h2>
 
       <div className="relative max-w-6xl mx-auto px-4">
@@ -130,7 +171,7 @@ export default function ExperienceTimeline() {
           {timeline.map((exp, index) => {
             const isExpanded = expandedItems.includes(exp.id);
             const isEven = index % 2 === 0;
-            
+
             return (
               <motion.div
                 key={exp.id}
@@ -138,38 +179,52 @@ export default function ExperienceTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true, margin: "-100px" }}
-                className={`relative flex ${isEven ? "justify-start" : "justify-end"} items-stretch`}
+                className={`relative flex ${
+                  isEven ? "justify-start" : "justify-end"
+                } items-stretch`}
               >
                 {/* Timeline Dot with Connector */}
-                <div className={`absolute top-8 ${isEven ? "left-1/2 -translate-x-1/2" : "right-1/2 translate-x-1/2"} z-20 flex flex-col items-center`}>
+                <div
+                  className={`absolute top-8 ${
+                    isEven
+                      ? "left-1/2 -translate-x-1/2"
+                      : "right-1/2 translate-x-1/2"
+                  } z-20 flex flex-col items-center`}
+                >
                   <motion.div
                     className="w-5 h-5 rounded-full bg-white border-4 border-indigo-500 shadow-lg z-20"
                     whileHover={{ scale: 1.2 }}
-                    animate={{ 
+                    animate={{
                       scale: [1, 1.1, 1],
                       boxShadow: [
                         "0 0 0 0 rgba(99, 102, 241, 0.7)",
                         "0 0 0 10px rgba(99, 102, 241, 0)",
-                        "0 0 0 0 rgba(99, 102, 241, 0)"
-                      ]
+                        "0 0 0 0 rgba(99, 102, 241, 0)",
+                      ],
                     }}
-                    transition={{ 
+                    transition={{
                       scale: { duration: 0.2 },
-                      boxShadow: { duration: 2, repeat: Infinity, delay: 1 }
+                      boxShadow: { duration: 2, repeat: Infinity, delay: 1 },
                     }}
                   />
-                  <div className={`h-16 w-1 bg-gradient-to-b ${isEven ? "from-indigo-500 to-transparent" : "from-transparent to-indigo-500"}`} />
+                  <div
+                    className={`h-16 w-1 bg-gradient-to-b ${
+                      isEven
+                        ? "from-indigo-500 to-transparent"
+                        : "from-transparent to-indigo-500"
+                    }`}
+                  />
                 </div>
 
                 {/* Card */}
-                <motion.div 
+                <motion.div
                   className={`bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl rounded-2xl p-6 w-full md:w-[45%] relative z-10 overflow-hidden group
                     ${isEven ? "md:mr-8" : "md:ml-8"}`}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 >
                   {/* Gradient accent */}
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 to-purple-500" />
-                  
+
                   {/* Header */}
                   <div className="flex justify-between items-start mb-4">
                     <div>
@@ -186,7 +241,11 @@ export default function ExperienceTimeline() {
                       whileTap={{ scale: 0.95 }}
                       className="p-1 rounded-full hover:bg-accent"
                     >
-                      {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                      {isExpanded ? (
+                        <ChevronUp size={20} />
+                      ) : (
+                        <ChevronDown size={20} />
+                      )}
                     </motion.button>
                   </div>
 
@@ -209,7 +268,10 @@ export default function ExperienceTimeline() {
                   {/* Expandable content */}
                   <motion.div
                     initial={false}
-                    animate={{ height: isExpanded ? "auto" : 0, opacity: isExpanded ? 1 : 0 }}
+                    animate={{
+                      height: isExpanded ? "auto" : 0,
+                      opacity: isExpanded ? 1 : 0,
+                    }}
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
@@ -221,14 +283,14 @@ export default function ExperienceTimeline() {
                         </h4>
                         <ul className="space-y-2 text-sm">
                           {exp.details.responsibilities.map((r, i) => (
-                            <motion.li 
-                              key={i} 
+                            <motion.li
+                              key={i}
                               className="flex items-start"
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.05 }}
                             >
-                              <span className="text-indigo-400 mr-2">•</span> 
+                              <span className="text-indigo-400 mr-2">•</span>
                               {r}
                             </motion.li>
                           ))}
@@ -242,14 +304,14 @@ export default function ExperienceTimeline() {
                         </h4>
                         <ul className="space-y-2 text-sm">
                           {exp.details.achievements.map((a, i) => (
-                            <motion.li 
-                              key={i} 
+                            <motion.li
+                              key={i}
                               className="flex items-start"
                               initial={{ opacity: 0, x: -10 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: i * 0.05 }}
                             >
-                              <span className="text-green-400 mr-2">•</span> 
+                              <span className="text-green-400 mr-2">•</span>
                               {a}
                             </motion.li>
                           ))}
@@ -267,8 +329,8 @@ export default function ExperienceTimeline() {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1 * i }}
                       >
-                        <Badge 
-                          variant="secondary" 
+                        <Badge
+                          variant="secondary"
                           className="text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
                         >
                           {tech}
@@ -282,8 +344,6 @@ export default function ExperienceTimeline() {
           })}
         </div>
       </div>
-
-    
     </section>
   );
 }
