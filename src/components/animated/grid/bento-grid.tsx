@@ -216,7 +216,7 @@ const CardHomeFeatures = () => {
             />
           </BentoGridItem>
           {/* Real Estate - Spans 2 columns */}
-         
+
           <BentoGridItem span={2}>
             <Card
               title="Vision Pro"
@@ -225,7 +225,7 @@ const CardHomeFeatures = () => {
               buttonHref="https://salman053.github.io/Vision-Pro-New-Design/"
             />
           </BentoGridItem>
-           <BentoGridItem span={4}>
+          <BentoGridItem span={4}>
             <Card
               src="/real.PNG"
               title="Real Estate Landing Page"
@@ -256,7 +256,7 @@ const CardHomeFeatures = () => {
             />
           </BentoGridItem>
 
-            <BentoGridItem span={2}>
+          <BentoGridItem span={2}>
             <Card
               title="Hongo-clone"
               className="bg-green-600"
@@ -276,7 +276,6 @@ const CardHomeFeatures = () => {
           </BentoGridItem>
 
           {/* Hongo Clone - Spans 2 columns */}
-        
 
           {/* Works Brand - Spans 4 columns */}
           <BentoGridItem span={4}>
@@ -301,7 +300,7 @@ const CardHomeFeatures = () => {
               buttonHref="https://clock-amazing.netlify.app/"
             />
           </BentoGridItem>
-           <BentoGridItem span={2}>
+          <BentoGridItem span={2}>
             <Card
               title="Random Rapid User Generator"
               description="A tool that instantly generates realistic user profiles with photos and demographics."
@@ -309,11 +308,10 @@ const CardHomeFeatures = () => {
             />
           </BentoGridItem>
 
-<BentoGridItem span={2}>
+          <BentoGridItem span={2}>
             <Card
               title="Eazy Calculator"
               className="bg-sky-700"
-
               description="A sleek, user-friendly calculator with responsive keypad design."
               buttonHref="https://easy-calculator-demo.netlify.app/"
             />
@@ -325,16 +323,13 @@ const CardHomeFeatures = () => {
               title="Typing Test"
               description="An interactive typing practice application that measures WPM, accuracy, and provides performance analytics."
               imageClassName="-right-[34%] -bottom-[50%]"
-
               buttonHref="https://typi-love.netlify.app/"
             />
           </BentoGridItem>
 
           {/* Calculator - Spans 2 columns */}
-          
 
           {/* Random User Generator - Spans 2 columns */}
-         
         </BentoGrid>
       </div>
     </section>

@@ -21,10 +21,9 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading your portfolio content
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // Adjust based on your actual load time
+    }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
