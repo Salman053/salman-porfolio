@@ -34,7 +34,7 @@ const BentoGridItem = ({ children, className = "", span = 1, rowSpan = 1 }) => {
 // Main Bento Grid Component
 const BentoGrid = ({ children, className = "" }) => {
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-6 gap-6 ${className}`}>
+    <div className={` flex flex-col md:grid grid-cols-1 md:grid-cols-6  gap-6  ${className}`}>
       {children}
     </div>
   );

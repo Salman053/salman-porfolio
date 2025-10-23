@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { WobbleCard } from "@/components/ui/wobble-card";
 import { Button } from "@/components/ui/button";
 import { BentoGrid, BentoGridItem } from "./bento";
+import { ProjectPreviewModal } from "@/components/shared/project-preview";
 // import Image from "next/image";
 
 interface CardProps {
@@ -17,6 +18,7 @@ interface CardProps {
   buttonHref: string;
   height?: number;
   width?: number;
+  screenshots?: string[];
   isGif?: boolean;
   tags?: string[];
 }
@@ -29,6 +31,8 @@ const Card = ({
   className,
   height,
   width,
+  screenshots = [],
+
   buttonHref,
   imageClassName,
   isGif,
@@ -78,14 +82,9 @@ const Card = ({
   const wobbleX = (mousePosition.x - 50) / 4;
   const wobbleY = (mousePosition.y - 50) / 4;
   const rotation = (mousePosition.x - 50) / 20;
-
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   return (
     <WobbleCard containerClassName={cn("relative h-full", className)}>
-      {/* Animated gradient border effect
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 opacity-0 transition-opacity duration-500 pointer-events-none"
-           style={{ opacity: isHovered ? 1 : 0 }} /> */}
-
-      {/* Content */}
       <a
         href={buttonHref}
         aria-label={`View ${title} project`}
@@ -104,7 +103,7 @@ const Card = ({
           </p>
         </div>
         {tags.length > 0 && (
-          <div className="flex flex-wrap max-w-sm gap-2 mb-4">
+          <div className="flex text-white flex-wrap max-w-sm gap-2 mb-4">
             {tags.map((tag, idx) => (
               <span
                 key={idx}
@@ -142,6 +141,23 @@ const Card = ({
           />
         ) : null}
       </div>
+      {screenshots.length > 0 && (
+        <Button
+          onClick={() => setIsPreviewOpen(true)}
+          variant="outline"
+          className="mt-4 text-foreground border-white/30 hover:bg-white/10"
+        >
+          Preview Screens
+        </Button>
+      )}
+
+      {/* --- Modal --- */}
+      <ProjectPreviewModal
+        open={isPreviewOpen}
+        onClose={() => setIsPreviewOpen(false)}
+        title={title}
+        images={screenshots}
+      />
       {/* Shine effect on hover */}
       <div
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 pointer-events-none transition-opacity duration-500"
@@ -170,10 +186,10 @@ const CardHomeFeatures = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header Section */}
         <header className="text-center mb-16" id="ScrollToFeatures">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Featured Projects
           </h2>
-          <p className="text-lg text-neutral-300 max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/80 max-w-2xl mx-auto">
             Discover our latest work showcasing innovative solutions,
             cutting-edge design, and exceptional craftsmanship across various
             industries.
@@ -185,7 +201,15 @@ const CardHomeFeatures = () => {
           {/* Large Featured Card - Full Width */}
           <BentoGridItem span={6}>
             <Card
-              tags={["React", "React", "Tailwind"]}
+              screenshots={[
+                "/eazydashboard.PNG",
+                "/eazysales.PNG",
+                "/erp (1).PNG",
+                "/erp (2).PNG",
+                "/erp (3).PNG",
+                "/erp (4).PNG",
+              ]}
+              tags={["React", "Recharts", "Gemini Chat Bot", "Tailwind"]}
               src="/erp.PNG"
               imageClassName="top-[20%]"
               title="Enterprise Resource Planning System"
@@ -195,11 +219,60 @@ const CardHomeFeatures = () => {
             />
           </BentoGridItem>
 
-          {/* Main POS System - Spans 4 columns */}
+          <BentoGridItem span={2}>
+            <Card
+              tags={[
+                "React",
+                "MongoDB",
+                "Shadcn UI",
+                "Node",
+                "Gemini ChatBot",
+                "Express",
+                "Tailwind",
+              ]}
+              src="/hms (2).PNG"
+              screenshots={[
+                "/hms (1).PNG",
+                "/hms (2).PNG",
+                "/hms (3).PNG",
+                "/hms (4).PNG",
+                "/hms (5).PNG",
+              ]}
+              className="bg-teal-800"
+              title="Health Management System"
+              description="Designed to help a hospital management system to manage the appointments of the patient and there lab result and save time of the doctor and the patient."
+              imageClassName="-right-[80%] top-[40%] scale-60"
+              buttonHref=""
+            />
+          </BentoGridItem>
+          <BentoGridItem span={4}>
+            <Card
+              tags={[
+                "React",
+                "MongoDB",
+                "Shadcn UI",
+                "Node",
+                "Express",
+                "Tailwind",
+              ]}
+              src="/skillsfusion(3).PNG"
+              screenshots={[
+                "/skillsfusion(1).PNG",
+                "/skillsfusion(2).PNG",
+                "/skillsfusion(3).PNG",
+                "/skillsfusion(5).PNG",
+              ]}
+              title="Skills Fusion Skills and Study Together"
+              description="Designed to help students to get real world experience in the tech industry by best tech companies and stay motivated. (This is my FYP Project its not fully completed yet.)"
+              imageClassName="-right-[40%] top-[30%] scale-110"
+              buttonHref="https://skills-fusion-client.vercel.app/"
+            />
+          </BentoGridItem>
           <BentoGridItem span={4}>
             <Card
               tags={["React", "Typescript", "Firebase", "Tailwind"]}
               src="/eazy.PNG"
+              screenshots={["/eazydashboard.PNG", "/eazysales.PNG"]}
               title="Eazy Point of Sales Management System"
               description="Designed to help shopkeepers, retailers, and small businesses run their stores smarter, not harder."
               imageClassName="-right-[30%] top-[20%] scale-90"
@@ -213,30 +286,17 @@ const CardHomeFeatures = () => {
               description="A visually stunning travel platform featuring world destinations with parallax effects and immersive galleries."
               className="bg-slate-600 h-full"
               buttonHref="https://fitzroydemi.netlify.app/"
+              screenshots={[
+                "/fitzroy (3).PNG",
+                "/fitzroy (1).PNG",
+                "/fitzroy (2).PNG",
+              ]}
             />
           </BentoGridItem>
           {/* Real Estate - Spans 2 columns */}
 
-          <BentoGridItem span={2}>
-            <Card
-              title="Vision Pro"
-              description="A reimagined Apple Vision Pro website with enhanced visual elements and interactive 3D product showcases."
-              className="bg-violet-900 h-full"
-              buttonHref="https://salman053.github.io/Vision-Pro-New-Design/"
-            />
-          </BentoGridItem>
-          <BentoGridItem span={4}>
-            <Card
-              src="/real.PNG"
-              title="Real Estate Landing Page"
-              tags={["HTML", "CSS", "Javascript"]}
-              imageClassName="-right-[30%] -bottom-[35%]"
-              description="A modern real estate website with fluid animations and responsive design, showcasing property listings with an elegant UI."
-              buttonHref="https://salman053.github.io/Real-Estate/"
-            />
-          </BentoGridItem>
           {/* Personal Management - Spans 3 columns */}
-          <BentoGridItem span={4}>
+          <BentoGridItem span={6}>
             <Card
               tags={[
                 "Next",
@@ -244,24 +304,35 @@ const CardHomeFeatures = () => {
                 "Firebase",
                 "Tailwind",
                 "Shadcn",
+                "Next Api",
+                "Watsapp Api",
+                "Nodemailer",
+                "Gemini",
                 "Framer Motion",
               ]}
-              imageClassName="-right-[35%] -bottom-[40%]"
+              screenshots={[
+                "/personal (1).PNG",
+                "/personal (2).PNG",
+                "/personal (3).PNG",
+                "/personal (4).PNG",
+              ]}
+              imageClassName="-right-[5%] -bottom-[20%]"
               title="Personal Management"
               className="bg-cyan-900"
-              description="Your all-in-one digital companion to stay organized, productive, and in control of your personal and professional life."
+              description="All-in-one digital companion to stay organized, productive, and in control of your personal and professional life. This is in my personal use."
               src="/pms.PNG"
               buttonHref="https://personal-management-system-web.vercel.app/"
               isGif
             />
           </BentoGridItem>
 
-          <BentoGridItem span={2}>
+          <BentoGridItem span={4}>
             <Card
-              title="Hongo-clone"
-              className="bg-green-600"
-              description="My first React project - a complete online shopping experience with product filtering and cart functionality."
-              buttonHref="https://funny-tapioca-961899.netlify.app/"
+              src="/type.PNG"
+              title="Typing Test"
+              description="An interactive typing practice application that measures WPM, accuracy, and provides performance analytics."
+              imageClassName="-right-[34%] -bottom-[50%]"
+              buttonHref="https://typi-love.netlify.app/"
             />
           </BentoGridItem>
           <BentoGridItem span={2}>
@@ -269,42 +340,9 @@ const CardHomeFeatures = () => {
               src="/net.PNG"
               className="h-full"
               title="Netflix-clone"
-              description="A functional replica of Netflix's interface with movie browsing, categories, and responsive design patterns."
+              description="A functional replica of Netflix's interface with movies , and responsive design patterns."
               imageClassName="-right-[30%]"
               buttonHref="https://netflix-clone-jet-iota.vercel.app/"
-            />
-          </BentoGridItem>
-
-          {/* Hongo Clone - Spans 2 columns */}
-
-          {/* Works Brand - Spans 4 columns */}
-          <BentoGridItem span={4}>
-            <Card
-              src="/works.PNG"
-              className="bg-brown-600"
-              title="Works Brand"
-              description="A clean, modern landing page for a creative agency with smooth scroll animations and portfolio showcases."
-              imageClassName="-right-[30%] top-[30%]"
-              buttonHref="https://salman053.github.io/Works-Brand-Landing-Page/"
-            />
-          </BentoGridItem>
-
-          {/* Digital Clock - Spans 2 columns */}
-          <BentoGridItem span={4}>
-            <Card
-              src="/clock.PNG"
-              className="bg-rose-800"
-              title="Amazing Digital Clock"
-              description="An elegant timepiece application with multiple themes, weather integration, and customizable display options."
-              imageClassName="-right-[34%] -bottom-[40%]"
-              buttonHref="https://clock-amazing.netlify.app/"
-            />
-          </BentoGridItem>
-          <BentoGridItem span={2}>
-            <Card
-              title="Random Rapid User Generator"
-              description="A tool that instantly generates realistic user profiles with photos and demographics."
-              buttonHref="https://randperson.netlify.app/"
             />
           </BentoGridItem>
 
@@ -316,20 +354,16 @@ const CardHomeFeatures = () => {
               buttonHref="https://easy-calculator-demo.netlify.app/"
             />
           </BentoGridItem>
-          {/* Typing Test - Spans 2 columns */}
           <BentoGridItem span={4}>
             <Card
-              src="/type.PNG"
-              title="Typing Test"
-              description="An interactive typing practice application that measures WPM, accuracy, and provides performance analytics."
-              imageClassName="-right-[34%] -bottom-[50%]"
-              buttonHref="https://typi-love.netlify.app/"
+              src="/clock.PNG"
+              className="bg-rose-800"
+              title="Amazing Digital Clock"
+              description="An elegant timepiece application with multiple themes, weather integration, and customizable display options."
+              imageClassName="-right-[34%] -bottom-[40%]"
+              buttonHref="https://clock-amazing.netlify.app/"
             />
           </BentoGridItem>
-
-          {/* Calculator - Spans 2 columns */}
-
-          {/* Random User Generator - Spans 2 columns */}
         </BentoGrid>
       </div>
     </section>
