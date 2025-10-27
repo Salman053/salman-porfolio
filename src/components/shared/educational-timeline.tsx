@@ -6,18 +6,18 @@ export const education = [
   {
     id: 1,
     degree: "Bachelor of Science in Computer Science",
-    school: "University of Karachi",
-    period: "2019 – 2023",
+    school: "Kohat University of Science and Technologies",
+    period: "2021 – 2025",
     achievements: [
       "Graduated with Honors 3.23/4 CGPA",
-      "Active member of Coding Society",
+      "Actively learning new technologies trends",
     ],
   },
   {
     id: 2,
     degree: "Intermediate in Pre-Computer Science",
     school: "Karwan Modal College Kohat",
-    period: "2017 – 2019",
+    period: "2019 – 2021",
     achievements: ["2nd position in Kohat Board", "Top Student Award"],
   },
 ];
