@@ -85,10 +85,7 @@ const Card = ({
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   return (
     <WobbleCard containerClassName={cn("relative h-full", className)}>
-      <a
-        href={buttonHref}
-        aria-label={`View ${title} project`}
-        target="_blank"
+      <div
         rel="noopener noreferrer"
         className={cn(
           " z-[100] cursor-pointer col-span-2  px-2 py-1 h-full flex flex-col"
@@ -118,7 +115,7 @@ const Card = ({
         {/* Tags */}
 
         {/* Button */}
-      </a>
+      </div>
       <div
         className={cn(
           "absolute  -right-[10%] md:block hidden -bottom-[10%] rounded-md z-[-1] transition-transform duration-700  hover:-translate-x-3 w-[700px] h-[400px]  overflow-hidden",
@@ -149,6 +146,14 @@ const Card = ({
         >
           Preview Screens
         </Button>
+      )}
+      {buttonHref && (
+        <a
+          href={buttonHref}
+          className="bg-gray-600/40 p-2 ml-3 rounded-sm hover:underline"
+          aria-label={`View ${title} project`}
+          target="_blank"
+        >Live Preview</a>
       )}
 
       {/* --- Modal --- */}
