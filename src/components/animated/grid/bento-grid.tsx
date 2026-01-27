@@ -220,7 +220,7 @@ const CardHomeFeatures = () => {
               title="Enterprise Resource Planning System"
               description="This is combine system demo front end for the educational system like university have many operations in one place with user role based personal systems"
               isGif={true}
-              buttonHref="https://pos-management-system-sage.vercel.app/"
+              buttonHref="https://erp-product.vercel.app/"
             />
           </BentoGridItem>
 
