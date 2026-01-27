@@ -16,6 +16,13 @@ import { useEffect, useState } from "react";
 import LoadingScreen from "./loading";
 import FeedbackMarquee from "@/components/shared/feedback-marque";
 import CardHomeFeatures from "../components/animated/grid/bento-grid";
+import { Metadata } from "next";
+
+
+ export const metadata: Metadata = {
+  title: "Salman Developer Portfolio",
+  description: "Muhammad Salman Khan Portfolio Website "
+};
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);

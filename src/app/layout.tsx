@@ -16,8 +16,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Salman Developer Portfolio",
-  description: "Muhammad Salman Khan Portfolio Website ",
+  title: "Muhammad Salman Khan | Full-Stack Web Developer Portfolio",
+  description: "Professional portfolio showcasing web development projects, React expertise, and full-stack solutions. Hire for modern web applications.",
+  keywords: ["web developer", "React developer", "full-stack", "portfolio", "Muhammad Salman Khan"],
+  openGraph: {
+    title: "Muhammad Salman Khan - Web Developer",
+    description: "View my latest web development projects and skills",
+    images: ['/og-image.png'], // Add an OpenGraph image
+  }
 };
 
 export default function RootLayout({
@@ -31,7 +37,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Toaster/>
+          <Toaster />
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
         </ThemeProvider>
       </body>

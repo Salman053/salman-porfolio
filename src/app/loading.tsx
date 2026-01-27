@@ -1,7 +1,14 @@
 "use client"
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: "Salman Developer Portfolio",
+  description: "Muhammad Salman Khan Portfolio Website",
+};
+ 
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
@@ -12,7 +19,7 @@ export default function LoadingScreen() {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => setIsVisible(false), 1000);
+          setTimeout(() => setIsVisible(false), 400);
           return 100;
         }
         return prev + Math.random() * 8;
