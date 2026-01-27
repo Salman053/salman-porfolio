@@ -5,11 +5,11 @@ import { Metadata } from 'next';
 
 
 // export const metadata: Metadata = {
-//   title: "Salman Developer Portfolio",
-//   description: "Muhammad Salman Khan Portfolio Website",
-// };
- 
-export default function LoadingScreen() {
+  //   title: "Salman Developer Portfolio",
+  //   description: "Muhammad Salman Khan Portfolio Website",
+  // };
+  
+  export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
 
