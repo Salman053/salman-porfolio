@@ -1,5 +1,4 @@
-"use client";
-
+"use client";;
 import FeedBackModal from "@/components/shared/feeback-Modal";
 import Skills from "../components/animated/skills";
 import AboutSection from "../components/shared/about-section";
@@ -12,33 +11,30 @@ import TestimonialSection from "../components/shared/testimonal";
 import WhyHireMe from "../components/shared/why-hire/why-hire-me";
 import Footer from "../components/system/footer";
 import Navbar from "../components/system/navbar";
-import { useEffect, useState } from "react";
-import LoadingScreen from "./loading";
 import FeedbackMarquee from "@/components/shared/feedback-marque";
 import CardHomeFeatures from "../components/animated/grid/bento-grid";
-import { Metadata } from "next";
 
 
-//  export const metadata: Metadata = {
-//   title: "Salman Developer Portfolio",
-//   description: "Muhammad Salman Khan Portfolio Website "
-// };
+
+
+
+
 
 export default function Page() {
-  const [isLoading, setIsLoading] = useState(true);
+  
 
 
   
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000);
+  
+  
+  
+  
 
-    return () => clearTimeout(timer);
-  }, []);
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  
+  
+  
+  
+  
   return (
     <main className="relative overflow-hidden">
       {/* <CardSwapComp/> */}

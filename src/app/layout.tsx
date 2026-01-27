@@ -24,6 +24,15 @@ export const metadata: Metadata = {
     description: "View my latest web development projects and skills",
     images: ['/og-image.png'], // Add an OpenGraph image
   }
+  ,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
