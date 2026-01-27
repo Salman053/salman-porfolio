@@ -11,6 +11,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  Workflow,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import emailjs from 'emailjs-com';
@@ -174,7 +175,7 @@ export default function AnimatedContactForm() {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 ">
+    <div id="contact" className="min-h-screen flex items-center justify-center p-4 ">
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-8 rounded-3xl overflow-hidden shadow-2xl bg-white dark:bg-slate-900">
         {/* Left Column - Animation */}
         <div className="relative hidden md:block overflow-hidden bg-gradient-to-br from-blue-600/50 to-purple-600/70">
@@ -209,13 +210,13 @@ export default function AnimatedContactForm() {
 
             <div className="flex mt-12 space-x-4">
               <a
-                href="#"
+                href="https://github.com/Salman053"
                 className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
               >
                 <Github size={20} />
               </a>
               <a
-                href="#"
+                href="linkedin.com/in/muhammadsalmankhan12"
                 className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
               >
                 <Linkedin size={20} />
@@ -224,7 +225,7 @@ export default function AnimatedContactForm() {
                 href="#"
                 className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
               >
-                <Twitter size={20} />
+                <Workflow size={20} />
               </a>
             </div>
           </div>

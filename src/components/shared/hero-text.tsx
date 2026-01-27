@@ -14,6 +14,7 @@ const HeroText = () => {
 
   return (
     <HeroHighlight 
+    
       containerClassName="relative h-screen  flex flex-col items-center justify-center overflow-hidden"
     >
       {/* Animated background elements */}

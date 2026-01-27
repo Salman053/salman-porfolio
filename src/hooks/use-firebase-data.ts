@@ -15,10 +15,6 @@ export const useFirestoreData = () => {
             setLoading(true)
             setError(null)
 
-            //   const uid = userId
-
-            //   if (!uid) return
-
             const handleSnapshot = (colName: string, setState: (data: any[]) => void) => {
                 const q = collection(db, colName)
                 return onSnapshot(

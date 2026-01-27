@@ -20,6 +20,8 @@ import CardHomeFeatures from "../components/animated/grid/bento-grid";
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
 
+
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);

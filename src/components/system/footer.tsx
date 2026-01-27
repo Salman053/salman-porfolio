@@ -10,13 +10,12 @@ import {
   ArrowUp,
   ExternalLink,
 } from "lucide-react";
+import { scrollToTop } from "@/lib/utils";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+
 
   return (
     <footer className="relative bg-background  pt-16 pb-8 overflow-hidden">

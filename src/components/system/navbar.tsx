@@ -1,5 +1,6 @@
 "use client";
 
+import { scrollToTop } from "@/lib/utils";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
@@ -43,7 +44,7 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-const [feedbackModalOpen,setFeedbackModalOpen]=useState(false)
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false)
   // Ensure component is mounted to avoid hydration mismatch
   useEffect(() => {
     setMounted(true);
@@ -51,20 +52,21 @@ const [feedbackModalOpen,setFeedbackModalOpen]=useState(false)
 
   if (!mounted) return null;
 
+
   return (
     <div className="relative w-full select-none">
       {/* Desktop Navbar */}
       <nav className="hidden md:flex fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
         <div className="navbar-glass-effect bg-background/30 rounded-2xl px-6 py-3 flex items-center justify-between shadow-lg backdrop-blur-md border border-white/10 dark:border-gray-800/30">
           {/* Logo */}
-          <a href="#intro" className="navbar-logo flex items-center mr-8">
+          <button onClick={scrollToTop} className="navbar-logo flex items-center mr-8 cursor-pointer hover:scale-105">
             <div className="w-8 h-8 rounded-full bg-gradient-to-r from-background-500 to-secondary-500 flex items-center justify-center text-foreground font-bold shadow-lg">
               Sk
             </div>
-            <span className="ml-2 text-nowrap font-semibold text-foreground ">
+            {/* <span className="ml-2 text-nowrap font-semibold text-foreground ">
               Salman Dev
-            </span>
-          </a>
+            </span> */}
+          </button>
 
           {/* Navigation Items */}
           <div className="flex space-x-1">
