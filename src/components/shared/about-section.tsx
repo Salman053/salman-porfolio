@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function AboutSection() {
   return (
-    <section id="contact" className="relative py-20 overflow-hidden">
+    <section id="about" className="relative py-20 overflow-hidden">
       {/* === Animated Background Elements === */}
       {/* <motion.div
         className="absolute top-20 left-10 w-64 h-64 rounded-full bg-blue-400/20 blur-3xl"
