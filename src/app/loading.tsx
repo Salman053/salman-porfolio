@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { Metadata } from 'next';
 
 
-export const metadata: Metadata = {
-  title: "Salman Developer Portfolio",
-  description: "Muhammad Salman Khan Portfolio Website",
-};
+// export const metadata: Metadata = {
+//   title: "Salman Developer Portfolio",
+//   description: "Muhammad Salman Khan Portfolio Website",
+// };
  
 export default function LoadingScreen() {
   const [progress, setProgress] = useState(0);

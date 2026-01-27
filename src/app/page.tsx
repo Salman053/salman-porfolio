@@ -19,10 +19,10 @@ import CardHomeFeatures from "../components/animated/grid/bento-grid";
 import { Metadata } from "next";
 
 
- export const metadata: Metadata = {
-  title: "Salman Developer Portfolio",
-  description: "Muhammad Salman Khan Portfolio Website "
-};
+//  export const metadata: Metadata = {
+//   title: "Salman Developer Portfolio",
+//   description: "Muhammad Salman Khan Portfolio Website "
+// };
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(true);
