@@ -35,7 +35,7 @@ export default function SplitScreenAbout() {
     <section
       ref={containerRef}
       id="about"
-      className="relative py-32 md:py-40  w-full bg-background border-t border-foreground/10"
+      className="relative py-12 md:py-40  w-full bg-background border-t border-foreground/10"
     >
       {/* Ambient scroll-linked backdrop */}
       <motion.div
@@ -50,7 +50,7 @@ export default function SplitScreenAbout() {
         <motion.div
           ref={aboutRef}
           style={{ y: aboutY }}
-          className="flex flex-col lg:flex-row-reverse items-start gap-16 lg:gap-24 mb-32 md:mb-40"
+          className="flex flex-col lg:flex-row-reverse items-start gap-16 lg:gap-24 mb-12 md:mb-40"
         >
           {/* Left: Editorial Heading */}
           <div className="w-full lg:w-[40%]">
@@ -84,7 +84,7 @@ export default function SplitScreenAbout() {
 
           {/* Right: Content with Parallax */}
           <motion.div
-            className="w-full lg:w-[60%] space-y-8 pt-8 lg:pt-12"
+            className="w-full lg:w-[60%] space-y-8  lg:pt-12"
           >
             <div className="space-y-6 text-lg md:text-xl lg:text-2xl text-foreground font-serif leading-relaxed">
               <motion.p
@@ -138,7 +138,7 @@ export default function SplitScreenAbout() {
           ref={contactRef}
           id="contact"
           style={{ y: contactY }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 relative mt-24 md:mt-32 pt-24 md:pt-32 border-t border-foreground/10 items-start"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 relative mt-2 md:mt-32 pt-24 md:pt-32 border-t border-foreground/10 items-start"
         >
           {/* Left: Contact Info */}
           <div className="lg:col-span-5 space-y-10">

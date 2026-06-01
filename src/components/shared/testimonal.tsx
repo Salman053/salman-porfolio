@@ -41,11 +41,11 @@ export default function TestimonialSection() {
   };
 
   return (
-    <section id="testimonial" className="relative py-40 bg-background overflow-hidden">
+    <section id="testimonial" className="relative md:py-40 py-10 bg-background overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
         
         {/* Label */}
-        <div className="text-center mb-16">
+        <div className="text-center md:mb-16">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">
             Client Impact
           </span>
@@ -80,7 +80,7 @@ export default function TestimonialSection() {
         </div>
 
         {/* Controls */}
-        <div className="flex justify-center items-center gap-8 mt-16">
+        <div className="flex justify-center items-center gap-8 md:mt-16">
           {/* Prev */}
           <button
             onClick={handlePrev}

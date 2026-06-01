@@ -51,7 +51,7 @@ export default function ServicesSection() {
   const isInView = useInView(containerRef, { once: true, margin: "-15%" });
 
   return (
-    <section id="services" className="relative py-12  bg-background overflow-hidden">
+    <section id="services" className="relative py-12 md:px-0 px-8  bg-background overflow-hidden">
       {/* Subtle ambient backdrop */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 

@@ -65,7 +65,7 @@ export function FeedbackModal() {
       <ModalTrigger className="z-[100] fixed bottom-8 right-8 border border-foreground/10 bg-background text-foreground text-xs font-mono uppercase tracking-widest px-6 py-3 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors shadow-sm duration-300">
         Feedback
       </ModalTrigger>
-      <ModalBody>
+      <ModalBody className="md:mx-0 mx-8">
         <ModalContent className="">
           {!submitted ? (
             <>

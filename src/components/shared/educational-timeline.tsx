@@ -118,13 +118,13 @@ export default function EducationJourney() {
   const isInView = useInView(containerRef, { once: true, margin: "-15%" });
 
   return (
-    <section id="education" ref={containerRef} className="relative py-26 overflow-hidden bg-background">
+    <section id="education" ref={containerRef} className="relative md:py-26 overflow-hidden bg-background">
       {/* Ambient backdrop gradient */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         {/* Editorial Header */}
-        <header className="flex flex-col md:flex-row items-start justify-between gap-12 mb-20 md:mb-28">
+        <header className="flex flex-col md:flex-row items-start justify-between gap-12 mb-12 md:mb-28">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}

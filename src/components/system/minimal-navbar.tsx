@@ -351,37 +351,7 @@ export const MinimalNavbar = () => {
 
           {/* Mobile Actions */}
           <div className="flex lg:hidden items-center gap-2">
-            <motion.button
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/60 
-                transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 cursor-pointer"
-              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-              whileTap={{ scale: 0.92 }}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {theme === "dark" ? (
-                  <motion.div
-                    key="sun"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: EASE_PREMIUM }}
-                  >
-                    <Sun size={18} />
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="moon"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: EASE_PREMIUM }}
-                  >
-                    <Moon size={18} />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
+           <AnimatedThemeToggler variant="glitch" />
 
             <motion.button
               onClick={() => setIsOpen(!isOpen)}

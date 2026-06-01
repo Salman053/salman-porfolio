@@ -197,42 +197,16 @@ const WhyHireMe = () => {
           </motion.div>
         </div>
 
-        {/* Mobile Stats - Horizontal Scroll */}
-        <motion.div 
-          className="mt-16 lg:hidden pt-8 border-t border-foreground/10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.8 }}
-        >
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-hide">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.9 + i * 0.1 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl bg-foreground/5 backdrop-blur-sm border border-foreground/10"
-              >
-                <stat.icon className="w-4 h-4 text-primary stroke-[1.5]" />
-                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground whitespace-nowrap">
-                  {stat.text}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+     
 
         {/* Subtle CTA Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.1, duration: 0.8 }}
-          className="mt-20 pt-12 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-6"
+          className="pt-12 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-6"
         >
-          <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest">
-            Ready to elevate your digital presence?
-          </p>
+         
           <a
             href="#contact"
             className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-foreground/15 

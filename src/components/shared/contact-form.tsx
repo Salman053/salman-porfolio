@@ -365,7 +365,7 @@ export default function AnimatedContactForm() {
                     transition={{ duration: 0.6 }}
                   />
                   
-                  <span className="relative text-sm z-10 flex items-center  justify-center gap-3">
+                  <span className="relative text-[10px] md:text-sm z-10 flex items-center  justify-center gap-3">
                     {isSubmitting ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />

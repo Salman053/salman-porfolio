@@ -113,7 +113,7 @@ const FeedbackShowcase = () => {
 
   return (
     <div 
-      className="w-full py-40 bg-transparent overflow-hidden relative border-t border-foreground/10"
+      className="w-full py-12 md:py-40 bg-transparent overflow-hidden relative border-t border-foreground/10"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -122,7 +122,7 @@ const FeedbackShowcase = () => {
       <div className="container mx-auto px-6">
         
         {/* Header */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-3 md:mb-24">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400 mb-4 block">
             Community Log
           </span>
@@ -171,7 +171,7 @@ const FeedbackShowcase = () => {
         </div>
 
         {/* Controls */}
-        <div className="flex justify-center items-center gap-8 mt-12">
+        <div className="flex justify-center items-center gap-8 md:mt-12">
           <button
             onClick={prevFeedback}
             className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center text-foreground hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"

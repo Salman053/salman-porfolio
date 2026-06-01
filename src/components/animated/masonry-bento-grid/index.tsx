@@ -41,7 +41,7 @@ export default function MasonryBentoGrid() {
   return (
     <section 
       ref={containerRef} 
-      className="py-20 md:py-32 relative w-full overflow-hidden bg-background text-foreground" 
+      className="md:py-32 md:px-0 px-3 relative w-full overflow-hidden bg-background text-foreground" 
       id="projects"
       role="region"
       aria-labelledby="archive-heading"
