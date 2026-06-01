@@ -1,522 +1,157 @@
-import { motion } from "framer-motion";
+"use client";
+
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { useInView } from "react-intersection-observer";
-export const Skill_data = [
-  {
-    skill_name: "Html 5",
-    Image: "/html.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Css",
-    Image: "/css.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Java Script",
-    Image: "/js.png",
-    width: 65,
-    height: 65,
-  },
-  {
-    skill_name: "Python",
-    Image: "/python.svg",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Tailwind Css",
-    Image: "/tailwind.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "React",
-    Image: "/react.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Redux",
-    Image: "/redux.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Type Script",
-    Image: "/ts.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Next js 13",
-    Image: "/next.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Flask",
-    Image: "/flask.svg",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Stripe Payment",
-    Image: "/stripe.webp",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Node js",
-    Image: "/node-js.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Mongo db",
-    Image: "/mongodb.png",
-    width: 40,
-    height: 40,
-  },
-];
-
-export const Socials = [
-  {
-    name: "Instagram",
-    src: "/instagram.svg",
-    link: "https://www.instagram.com/nikhil_maguwala/",
-  },
-  {
-    name: "Github",
-    src: "/github_white.jpg",
-    link: "https://github.com/nikhilmaguwala",
-  },
-  {
-    name: "Linkedin",
-    src: "/linkedin.svg",
-    link: "https://www.linkedin.com/in/nikhil-maguwala/",
-  },
-];
 
 export const Frontend_skill = [
-  {
-    skill_name: "HTML 5",
-    Image: "/html.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "CSS",
-    Image: "/css.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Java Script",
-    Image: "/js.png",
-    width: 65,
-    height: 65,
-  },
-  {
-    skill_name: "Tailwind Css",
-    Image: "/tailwind.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Material UI",
-    Image: "/mui.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "React",
-    Image: "/react.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Redux",
-    Image: "/redux.png",
-    width: 80,
-    height: 80,
-  },
-  // {
-  //   skill_name: "Angular",
-  //   Image: "/angular.svg",
-  //   width: 80,
-  //   height: 80,
-  // },
-  {
-    skill_name: "Type Script",
-    Image: "/ts.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Next js 13",
-    Image: "/next.png",
-    width: 80,
-    height: 80,
-  },
+  { skill_name: "HTML 5", Image: "/html.png", width: 40, height: 40 },
+  { skill_name: "CSS", Image: "/css.png", width: 40, height: 40 },
+  { skill_name: "JavaScript", Image: "/js.png", width: 35, height: 35 },
+  { skill_name: "TypeScript", Image: "/ts.png", width: 40, height: 40 },
+  { skill_name: "React", Image: "/react.png", width: 40, height: 40 },
+  { skill_name: "Next.js", Image: "/next.png", width: 40, height: 40 },
+  { skill_name: "Redux", Image: "/redux.png", width: 40, height: 40 },
+  { skill_name: "Tailwind CSS", Image: "/tailwind.png", width: 40, height: 40 },
 ];
 
 export const Backend_skill = [
-  {
-    skill_name: "Node js",
-    Image: "/node-js.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Express js",
-    Image: "/express.png",
-    width: 80,
-    height: 80,
-  },
-  {
-    skill_name: "Mongo db",
-    Image: "/mongodb.png",
-    width: 40,
-    height: 40,
-  },
-  {
-    skill_name: "Fire base",
-    Image: "/Firebase.png",
-    width: 55,
-    height: 55,
-  },
-  // {
-  //   skill_name: "Postgres SQL",
-  //   Image: "/postger.png",
-  //   width: 70,
-  //   height: 70,
-  // },
-  {
-    skill_name: "My SQL",
-    Image: "/mysql.png",
-    width: 70,
-    height: 70,
-  },
-  // {
-  //   skill_name: "Prisma",
-  //   Image: "/prisma.webp",
-  //   width: 70,
-  //   height: 70,
-  // },
-  // {
-  //   skill_name: "Graphql",
-  //   Image: "/graphql.png",
-  //   width: 80,
-  //   height: 80,
-  // },
-];
-
-export const Full_stack = [
-  // {
-  //   skill_name: "React Native",
-  //   Image: "/ReactNative .png",
-  //   width: 70,
-  //   height: 70,
-  // },
-  // {
-  //   skill_name: "Jenkins",
-  //   Image: "/jenkins.svg",
-  //   width: 70,
-  //   height: 70,
-  // },
-  // {
-  //   skill_name: "Docker",
-  //   Image: "/docker.webp",
-  //   width: 70,
-  //   height: 70,
-  // },
-  // {
-  //   skill_name: "Figma",
-  //   Image: "/figma.png",
-  //   width: 50,
-  //   height: 50,
-  // },
+  { skill_name: "Node.js", Image: "/node-js.png", width: 40, height: 40 },
+  { skill_name: "Express.js", Image: "/express.png", width: 40, height: 40 },
+  { skill_name: "MongoDB", Image: "/mongodb.png", width: 30, height: 30 },
+  { skill_name: "Firebase", Image: "/Firebase.png", width: 35, height: 35 },
+  { skill_name: "MySQL", Image: "/mysql.png", width: 40, height: 40 },
+  { skill_name: "Python", Image: "/python.png", width: 40, height: 40 },
+  { skill_name: "Flask", Image: "/flask.svg", width: 40, height: 40 },
 ];
 
 export const Other_skill = [
-  {
-    skill_name: "ChatGPT",
-    Image: "/chatgpt-icon.svg",
-    width: 60,
-    height: 60,
-  },
+  { skill_name: "Stripe", Image: "/stripe.webp", width: 40, height: 40 },
+  { skill_name: "ChatGPT API", Image: "/chatgpt-icon.svg", width: 35, height: 35 },
 ];
 
-interface Props {
-  src: string;
-  width: number;
-  height: number;
-  index: number;
-}
-
-const SkillDataProvider = ({ src, width, height, index, name }: Props & { name: string }) => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.3,
-  });
-
-  const [isHovered, setIsHovered] = useState(false);
-
-  const imageVariants = {
-    hidden: { 
-      opacity: 0, 
-      y: 50,
-      scale: 0.8 
-    },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 10
-      }
-    },
-    hover: {
-      scale: 1.15,
-      y: -10,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    }
-  };
-
-  const tooltipVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0 }
-  };
-
-  const animationDelay = 0.2;
-  
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      variants={imageVariants as any}
-      animate={inView ? "visible" : "hidden"}
-      whileHover="hover"
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      custom={index}
-      transition={{ delay: index * animationDelay }}
-      className="relative flex flex-col items-center"
-    >
-      <motion.div
-        className="p-3 rounded-xl bg-gradient-to-br from-foreground/10 to-background/80 shadow-lg border border-foreground/10"
-        whileHover={{
-          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 5px 10px -5px rgba(0, 0, 0, 0.04)",
-          backgroundColor: "rgba(255, 255, 255, 0.05)"
-        }}
-      >
-        <Image 
-          src={src} 
-          width={width} 
-          height={height} 
-          alt={`${name} logo`} 
-          className="transition-all duration-300"
-        />
-      </motion.div>
-      
-      {/* Tooltip on hover */}
-      {isHovered && (
-        <motion.div
-          variants={tooltipVariants}
-          initial="hidden"
-          animate="visible"
-          className="absolute -bottom-8 bg-foreground text-background px-2 py-1 rounded-md text-xs font-medium whitespace-nowrap"
-        >
-          {name}
-        </motion.div>
-      )}
-    </motion.div>
-  );
-};
+const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
 
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState("all");
-  
-  // Add a 'name' property to your skill data objects
-  const Skill_data_with_names = Skill_data.map(skill => ({
-    ...skill,
-    name: skill.skill_name // Replace with actual skill names
-  }));
-  
-  const Frontend_skill_with_names = Frontend_skill.map(skill => ({
-    ...skill,
-    name: skill.skill_name // Replace with actual skill names
-  }));
-  
-  const Backend_skill_with_names = Backend_skill.map(skill => ({
-    ...skill,
-    name: skill.skill_name // Replace with actual skill names
-  }));
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
 
-  const categoryVariants = {
+  const skillCategories = {
+    frontend: Frontend_skill,
+    backend: Backend_skill,
+    other: Other_skill,
+  };
+
+  const filteredSkills =
+    activeCategory === "all"
+      ? [...Frontend_skill, ...Backend_skill, ...Other_skill]
+      : skillCategories[activeCategory as keyof typeof skillCategories] || [];
+
+  const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.05
-      }
-    }
+      transition: { staggerChildren: 0.05, delayChildren: 0.15, ease: EASE_PREMIUM },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, ease: EASE_PREMIUM },
+    },
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.3 } },
   };
 
   return (
-    <section
-      id="skills"
-      className="flex flex-col bg-transparent items-center justify-center gap-8 h-full relative overflow-hidden py-16 px-4"
-    >
-      <SkillText />
-      
-      {/* Category selector */}
-      <motion.div 
-        className="flex flex-wrap justify-center gap-4 mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
-        {["all", "frontend", "backend", "other"].map((category) => (
-          <button
-            key={category}
-            onClick={() => setActiveCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-              activeCategory === category
-                ? "bg-foreground text-background"
-                : "bg-foreground/10 text-foreground hover:bg-foreground/20"
-            }`}
-          >
-            {category.charAt(0).toUpperCase() + category.slice(1)}
-          </button>
-        ))}
-      </motion.div>
+    <section id="skills" className="relative py-12 bg-background overflow-hidden">
+      {/* Subtle ambient backdrop */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-      {/* Skills display with category filtering */}
-      <motion.div
-        variants={categoryVariants}
-        initial="hidden"
-        animate="visible"
-        className="w-full max-w-6xl mx-auto"
-      >
-        {(activeCategory === "all" || activeCategory === "frontend") && (
-          <motion.div 
-            className="mb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h3 className="text-xl font-semibold mb-6 text-center text-foreground/80">Frontend Technologies</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
-              {Frontend_skill_with_names.map((image, index) => (
-                <SkillDataProvider
-                  key={index}
-                  src={image.Image}
-                  width={image.width}
-                  height={image.height}
-                  index={index}
-                  name={image.name}
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Header */}
+        <header className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-10">
+          <div className="max-w-2xl">
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-4 block">
+              Technical Arsenal
+            </span>
+            <h2 className="text-5xl md:text-7xl font-normal font-serif tracking-tight leading-[0.95] text-foreground">
+              The <span className="italic font-light text-muted-foreground">engine</span>
+            </h2>
+          </div>
 
-        {(activeCategory === "all" || activeCategory === "backend") && (
-          <motion.div 
-            className="mb-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            <h3 className="text-xl font-semibold mb-6 text-center text-foreground/80">Backend Technologies</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 justify-items-center">
-              {Backend_skill_with_names.map((image, index) => (
-                <SkillDataProvider
-                  key={index}
-                  src={image.Image}
-                  width={image.width}
-                  height={image.height}
-                  index={index}
-                  name={image.name}
-                />
-              ))}
-            </div>
-          </motion.div>
-        )}
+          {/* Premium Pill Tabs */}
+          <div className="flex flex-wrap gap-1.5 p-1.5 bg-foreground/5 backdrop-blur-sm rounded-full border border-foreground/10">
+            {["all", "frontend", "backend", "other"].map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                aria-pressed={activeCategory === cat}
+                className={`relative px-5 py-2.5 text-xs font-mono uppercase tracking-widest rounded-full transition-colors duration-300 ${
+                  activeCategory === cat ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {activeCategory === cat && (
+                  <motion.div
+                    layoutId="skill-tab-bg"
+                    className="absolute inset-0 bg-foreground/10 rounded-full shadow-sm"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
+                  />
+                )}
+                <span className="relative z-10">{cat}</span>
+              </button>
+            ))}
+          </div>
+        </header>
 
-        {/* Add similar sections for other categories */}
-      </motion.div>
+        {/* Skills Grid */}
+        <motion.div
+          ref={ref}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredSkills.map((skill) => (
+              <motion.div
+                key={skill.skill_name}
+                layout
+                variants={itemVariants}
+                whileHover={{ y: -4, scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="group relative bg-background/60 backdrop-blur-sm border border-foreground/5 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:border-foreground/15 transition-colors duration-300 overflow-hidden cursor-default"
+              >
+                {/* Subtle gradient on hover */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-      {/* Animated background elements */}
-      <div className="absolute -z-10 top-0 left-0 w-full h-full overflow-hidden opacity-20">
-        {[...Array(10)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-foreground/10"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              width: `${20 + Math.random() * 50}px`,
-              height: `${20 + Math.random() * 50}px`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 5 + Math.random() * 10,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
+                {/* Icon */}
+                <div className="relative w-11 h-11 md:w-12 md:h-12 flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-110">
+                  <Image
+                    src={skill.Image}
+                    width={skill.width}
+                    height={skill.height}
+                    alt={skill.skill_name}
+                    className="object-contain w-full h-full opacity-50 grayscale group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
+                    unoptimized={skill.Image.endsWith(".svg")}
+                  />
+                </div>
+
+                {/* Label */}
+                <span className="text-[10px] md:text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground group-hover:text-primary transition-colors duration-300 text-center select-none">
+                  {skill.skill_name}
+                </span>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 export default Skills;
-
-const SkillText = () => {
-  return (
-    <div className="w-full h-auto flex flex-col items-center justify-center mb-12">
-      <motion.h2
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-5xl md:text-6xl font-bold text-foreground text-center mb-6"
-      >
-        My <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">Skills</span>
-      </motion.h2>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-2xl text-foreground font-medium text-center mb-4 max-w-2xl"
-      >
-        Creating applications with modern technologies
-      </motion.div>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-        className="text-lg text-foreground/70 text-center max-w-2xl"
-      >
-        Never miss a task, deadline or idea with the right tools
-      </motion.div>
-    </div>
-  );
-};

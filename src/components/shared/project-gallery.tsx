@@ -1,6 +1,4 @@
-// =========================
-// components/ProjectGallery.tsx — cards + modal details
-// =========================
+
 "use client";
 import { useState } from "react";
 import CardSpotlight from "@/components/animated/card-spotlight";

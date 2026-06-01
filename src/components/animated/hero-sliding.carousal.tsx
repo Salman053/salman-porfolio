@@ -10,7 +10,7 @@ import {
   Palette,
   Database,
 } from "lucide-react";
-import "../../styles/hero-slider.css";
+import "@/styles/hero-slider.css";
 
 // Professional Portfolio Slides
 const defaultSlides = [

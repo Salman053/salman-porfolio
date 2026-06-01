@@ -1,7 +1,7 @@
 "use client"
 
 import { db } from "@/firebase"
-import { collection, onSnapshot, query, where } from "firebase/firestore"
+import { collection, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react"
 
 export const useFirestoreData = () => {

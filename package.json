@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "check:unused": "ts-node scripts/find-unused.ts",
+    "check:unused": "ts-node src/scripts/find-unused.ts",
     "check:exports": "ts-prune"
   },
   "dependencies": {
@@ -16,7 +16,7 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-three/drei": "^10.7.4",
-    "@react-three/fiber": "^9.3.0",
+    "@react-three/fiber": "^9.6.1",
     "@studio-freight/lenis": "^1.0.42",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -32,6 +32,7 @@
     "motion": "^12.23.12",
     "next": "^15.5.10",
     "next-themes": "^0.4.6",
+    "nodemailer": "^8.0.10",
     "ogl": "^1.0.11",
     "postprocessing": "^6.37.7",
     "react": "19.1.0",
@@ -41,7 +42,7 @@
     "simplex-noise": "^4.0.3",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
-    "three": "^0.179.1",
+    "three": "^0.167.1",
     "three-globe": "^2.44.0",
     "zod": "^4.1.5"
   },
@@ -49,6 +50,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/nodemailer": "^8.0.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

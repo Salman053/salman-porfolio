@@ -1,256 +1,315 @@
 "use client";
-import { motion } from "framer-motion";
-import { Badge } from "../ui/badge";
-import { useCallback, useState } from "react";
-import {
-  ChevronDown,
-  ChevronUp,
-  MapPin,
-  Calendar,
-  Building,
-} from "lucide-react";
+
+import React, { useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { Plus, Minus, ArrowUpRight } from "lucide-react";
 import { experience } from "@/content/site";
 
+const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
+const EASE_SMOOTH = [0.16, 1, 0.3, 1] as const;
+
+const TimelineItem = ({ exp, index, isExpanded, onToggle, isFirst }: any) => {
+  const itemRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(itemRef, { once: true, margin: "-100px" });
+  
+  
+
+  return (
+    <motion.div
+      ref={itemRef}
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay: index * 0.12, ease: EASE_PREMIUM }}
+      className="relative py-14 group"
+    >
+    
+
+      {/* Timeline Dot */}
+      <motion.div
+        className={`absolute left-0 md:left-2 w-4 h-4 rounded-full border-2 z-10 flex items-center justify-center
+          ${isExpanded ? 'bg-primary border-primary' : 'bg-background border-foreground/30 group-hover:border-primary/60'}
+          transition-colors duration-500`}
+        animate={{
+          scale: isExpanded ? 1.2 : 1,
+          backgroundColor: isExpanded ? "hsl(var(--primary))" : "hsl(var(--background))",
+        }}
+        transition={{ duration: 0.4, ease: EASE_SMOOTH }}
+      >
+        {isExpanded && (
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            className="w-1.5 h-1.5 rounded-full bg-background"
+          />
+        )}
+      </motion.div>
+
+      <div className="pl-8 md:pl-14">
+        <div 
+          className="flex flex-col md:flex-row md:items-center justify-between gap-6 cursor-pointer"
+          onClick={onToggle}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && onToggle()}
+          aria-expanded={isExpanded}
+          aria-controls={`exp-content-${exp.id}`}
+        >
+          {/* Period */}
+          <div className="w-full md:w-1/4 order-2 md:order-1">
+            <motion.span 
+              className="text-xs font-mono uppercase tracking-[0.25em] text-muted-foreground"
+              animate={{ opacity: isExpanded ? 1 : 0.6 }}
+              transition={{ duration: 0.3 }}
+            >
+              {exp.period}
+            </motion.span>
+          </div>
+          
+          {/* Title & Company */}
+          <div className="w-full md:w-2/4 order-1 md:order-2">
+            <motion.h3 
+              className="text-2xl md:text-4xl lg:text-5xl font-serif text-foreground tracking-tight leading-tight
+                group-hover:text-primary transition-colors duration-300"
+              animate={{ x: isExpanded ? 4 : 0 }}
+              transition={{ duration: 0.4, ease: EASE_SMOOTH }}
+            >
+              {exp.title}
+            </motion.h3>
+            <motion.p 
+              className="text-base md:text-lg text-muted-foreground mt-2 font-serif italic"
+              animate={{ opacity: isExpanded ? 1 : 0.7 }}
+            >
+              {exp.company}
+            </motion.p>
+          </div>
+
+          {/* Toggle Button */}
+          <div className="w-full md:w-1/4 flex justify-start md:justify-end order-3">
+            <motion.button 
+              className="relative w-11 h-11 md:w-12 md:h-12 rounded-full border border-foreground/20 
+                flex items-center justify-center shrink-0 overflow-hidden
+                hover:border-primary/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+              aria-label={isExpanded ? "Collapse details" : "Expand details"}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Background fill on hover/expand */}
+              <motion.div
+                className="absolute inset-0 bg-primary/10"
+                initial={{ scale: 0 }}
+                animate={{ scale: isExpanded ? 1 : 0 }}
+                transition={{ duration: 0.3, ease: EASE_SMOOTH }}
+              />
+              
+              {/* Icon with rotation */}
+              <motion.div
+                animate={{ rotate: isExpanded ? 180 : 0 }}
+                transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+                className={`relative z-10 ${isExpanded ? 'text-primary' : 'text-muted-foreground group-hover:text-primary'}`}
+              >
+                {isExpanded ? <Minus size={18} strokeWidth={2.5} /> : <Plus size={18} strokeWidth={2.5} />}
+              </motion.div>
+            </motion.button>
+          </div>
+        </div>
+
+        {/* Expandable Content */}
+        <AnimatePresence initial={false}>
+          {isExpanded && (
+            <motion.div
+              id={`exp-content-${exp.id}`}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+              className="overflow-hidden"
+            >
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 10, opacity: 0 }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+                className="pt-10 pb-4 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12"
+              >
+                <div className="md:col-start-2 md:col-span-3 space-y-10">
+                  {/* Responsibilities */}
+                  <div>
+                    <h4 className="text-sm font-black uppercase tracking-[0.3em] text-muted-foreground mb-5 flex items-center gap-3">
+                      <span className="w-8 h-px bg-foreground/20" />
+                      Impact & Execution
+                    </h4>
+                    <ul className="space-y-5">
+                      {exp.details.responsibilities.map((r: string, i: number) => (
+                        <motion.li 
+                          key={i} 
+                          initial={{ opacity: 0, x: -12 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.15 + i * 0.08, duration: 0.5 }}
+                          className="text-base md:text-lg font-serif text-foreground/90 leading-relaxed flex items-start gap-4"
+                        >
+                          <motion.span 
+                            className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0"
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2 + i * 0.08, type: "spring", stiffness: 500 }}
+                          />
+                          <span>{r}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  {/* Technologies */}
+                  <div className="pt-6 border-t border-foreground/10">
+                    <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground mb-5 flex items-center gap-3">
+                      <span className="w-8 h-px bg-foreground/20" />
+                      Technologies
+                    </h4>
+                    <div className="flex flex-wrap gap-2.5">
+                      {exp.tech.map((t: string, i: number) => (
+                        <motion.span 
+                          key={t}
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.25 + i * 0.04, duration: 0.4 }}
+                          whileHover={{ y: -2, borderColor: "hsl(var(--primary))" }}
+                          className="px-4 py-2 text-[10px] font-mono uppercase tracking-wider rounded-full 
+                            border border-foreground/15 text-foreground hover:text-primary 
+                            hover:bg-primary/5 transition-colors cursor-default"
+                        >
+                          {t}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Optional: Link to case study */}
+                  {exp.caseStudy && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.4 }}
+                      className="pt-4"
+                    >
+                      <a
+                        href={exp.caseStudy}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-2.5 text-sm font-medium text-muted-foreground 
+                          hover:text-primary transition-colors"
+                      >
+                        View Case Study
+                        <motion.span
+                          className="inline-block"
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </motion.span>
+                      </a>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+};
 
 export default function ExperienceTimeline() {
   const [expandedItems, setExpandedItems] = useState<number[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+  const headerY = useTransform(scrollYProgress, [0, 0.2], [0, -30]);
 
   const toggleItem = useCallback((id: number) => {
-
-    const wasExpanded = expandedItems.includes(id);
-
-    if (!wasExpanded) {
-      // Find element and scroll it into view
-      setTimeout(() => {
-        const element = document.getElementById(`exp-item-${id}`);
-        element?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest'
-        });
-      }, 100);
-    }
     setExpandedItems(prev =>
-      prev.includes(id)
-        ? prev.filter(item => item !== id)
-        : [...prev, id]
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
   }, []);
 
   return (
-    <section
-      id="experience"
-      className="relative mb-12 mt-4 py-20 overflow-hidden"
-    >
-      {/* === Animated Background Elements === */}
-      <motion.div
-        className="absolute top-20 left-10 w-72 h-72 rounded-full bg-primary/20 blur-3xl"
-        animate={{ x: [0, 50, 0], y: [0, -30, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-purple-400/20 blur-3xl"
-        animate={{ x: [0, -60, 0], y: [0, 40, 0] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute top-1/2 left-1/2 w-[40rem] h-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-r from-blue-500/10 to-pink-500/10 blur-[200px]"
-        animate={{ scale: [1, 1.2, 1] }}
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      />
+    <section id="experience" ref={containerRef} className="py-32 md:py-40 w-full bg-background relative overflow-hidden">
+      {/* Ambient backdrop */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-      <motion.h2
-        className="relative text-4xl md:text-5xl font-bold text-center mb-16"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-      >
-        Professional{" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
-          Journey
-        </span>
-      </motion.h2>
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        {/* Editorial Header */}
+        <motion.header 
+          style={{ opacity: headerOpacity, y: headerY }}
+          className="mb-20 md:mb-28"
+        >
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: EASE_PREMIUM }}
+            className="text-xs font-black uppercase tracking-[0.4em] text-muted-foreground mb-5 block"
+          >
+            The Journey
+          </motion.span>
+          <motion.h2 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: EASE_PREMIUM, delay: 0.1 }}
+            className="text-5xl md:text-7xl lg:text-[7rem] font-serif tracking-tight leading-[0.9] text-foreground"
+          >
+            Professional <br />
+            <span className="italic font-light text-muted-foreground">Evolution</span>
+          </motion.h2>
+        </motion.header>
 
-      <div className="relative max-w-6xl mx-auto px-4">
-        {/* Timeline Line */}
-        <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-indigo-400/60 via-purple-400/40 to-pink-400/20 rounded-full" />
-
-        <div role="list" aria-label="Professional experience timeline" className="space-y-24 relative">
-          {
-            experience
-              .map((exp, index) => {
-                const isExpanded = expandedItems.includes(exp.id);
-                const isEven = index % 2 === 0;
-
-                return (
-                  <motion.div
-                    role="listitem"
-                    aria-label={`${exp.title} at ${exp.company} from ${exp.period}`}
-                    key={exp.id}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    className={`relative flex ${isEven ? "justify-start" : "justify-end"
-                      } items-stretch`}
-                  >
-                    {/* Timeline Dot with Connector */}
-                    <div
-                      className={`absolute top-8 ${isEven
-                        ? "left-1/2 -translate-x-1/2"
-                        : "right-1/2 translate-x-1/2"
-                        } z-20 flex flex-col items-center`}
-                    >
-                      <motion.div
-                        className="w-5 h-5 rounded-full bg-white border-4 border-indigo-500 shadow-lg z-20"
-                        whileHover={{ scale: 1.2 }}
-                        animate={{
-                          scale: [1, 1.1, 1],
-                          boxShadow: [
-                            "0 0 0 0 rgba(99, 102, 241, 0.7)",
-                            "0 0 0 10px rgba(99, 102, 241, 0)",
-                            "0 0 0 0 rgba(99, 102, 241, 0)",
-                          ],
-                        }}
-                        transition={{
-                          scale: { duration: 0.2 },
-                          boxShadow: { duration: 2, repeat: Infinity, delay: 1 },
-                        }}
-                      />
-                      <div
-                        className={`h-16 w-1 bg-gradient-to-b ${isEven
-                          ? "from-indigo-500 to-transparent"
-                          : "from-transparent to-indigo-500"
-                          }`}
-                      />
-                    </div>
-
-                    {/* Card */}
-                    <motion.div
-                      className={`bg-card/80 backdrop-blur-sm border border-border/50 shadow-xl rounded-2xl p-6 w-full md:w-[45%] relative z-10 overflow-hidden group z-50
-                    ${isEven ? "md:mr-8" : "md:ml-8"}`}
-                      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-                    >
-                      {/* Gradient accent */}
-                      <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-indigo-500 to-purple-500" />
-
-                      {/* Header */}
-                      <div className="flex justify-between items-start mb-4">
-                        <div>
-                          <span className="text-xs font-semibold px-2 py-1 rounded-md bg-indigo-500/10 text-indigo-400">
-                            {exp.type}
-                          </span>
-                          <h3 className="text-xl font-bold mt-2 group-hover:text-indigo-400 transition-colors">
-                            {exp.title}
-                          </h3>
-                        </div>
-                        <motion.button
-                          onClick={() => toggleItem(exp.id)}
-                          aria-expanded={isExpanded}
-                          aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${exp.title} details`}
-                          whileHover={{ scale: 1.1 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="p-1 rounded-full hover:bg-accent focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        >
-                          {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                        </motion.button>
-                      </div>
-
-                      {/* Meta info */}
-                      <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-4">
-                        <div className="flex items-center">
-                          <Building size={14} className="mr-1" />
-                          {exp.company}
-                        </div>
-                        <div className="flex items-center">
-                          <MapPin size={14} className="mr-1" />
-                          {exp.location}
-                        </div>
-                        <div className="flex items-center">
-                          <Calendar size={14} className="mr-1" />
-                          {exp.period}
-                        </div>
-                      </div>
-
-                      {/* Expandable content */}
-                      <motion.div
-                        initial={false}
-                        animate={{
-                          height: isExpanded ? "auto" : 0,
-                          opacity: isExpanded ? 1 : 0,
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-4 space-y-4">
-                          <div>
-                            <h4 className="font-semibold text-sm mb-2 flex items-center">
-                              <span className="w-2 h-2 rounded-full bg-indigo-500 mr-2"></span>
-                              Responsibilities:
-                            </h4>
-                            <ul className="space-y-2 text-sm">
-                              {exp.details.responsibilities.map((r, i) => (
-                                <motion.li
-                                  key={`${exp.id}-resp-${i}`}
-                                  className="flex items-start"
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: i * 0.05 }}
-                                >
-                                  <span className="text-indigo-400 mr-2">•</span>
-                                  {r}
-                                </motion.li>
-                              ))}
-                            </ul>
-                          </div>
-
-                          <div>
-                            <h4 className="font-semibold text-sm mb-2 flex items-center">
-                              <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
-                              Achievements:
-                            </h4>
-                            <ul className="space-y-2 text-sm">
-                              {exp.details.achievements.map((a, i) => (
-                                <motion.li
-                                  key={i}
-                                  className="flex items-start"
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ delay: i * 0.05 }}
-                                >
-                                  <span className="text-green-400 mr-2">•</span>
-                                  {a}
-                                </motion.li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
-                      </motion.div>
-
-                      {/* Tech badges - always visible */}
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {exp.tech.map((tech, i) => (
-                          <motion.div
-                            key={i}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.1 * i }}
-                          >
-                            <Badge
-                              variant="secondary"
-                              className="text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
-                            >
-                              {tech}
-                            </Badge>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                );
-              })
-          }
+        {/* Timeline List */}
+        <div className="relative pl-2 md:pl-4 border-l border-foreground/10">
+          {experience.map((exp, index) => (
+            <TimelineItem 
+              key={exp.id} 
+              exp={exp} 
+              index={index} 
+              isFirst={index === 0}
+              isExpanded={expandedItems.includes(exp.id)}
+              onToggle={() => toggleItem(exp.id)}
+            />
+          ))}
         </div>
+
+        {/* Subtle CTA Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ delay: 0.4, duration: 0.8 }}
+          className="mt-20 pt-12 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest">
+            Let's build something remarkable together
+          </p>
+          <a
+            href="#contact"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-foreground/15 
+              text-sm font-medium uppercase tracking-widest hover:bg-foreground hover:text-background 
+              transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+          >
+            Get in Touch
+            <motion.span
+              className="inline-block"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,263 +1,159 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { Code, Palette, Rocket, Cpu, Cloud, Lock } from "lucide-react";
+import { Code, Palette, Rocket, Cpu, Cloud, Lock, ArrowUpRight } from "lucide-react";
 import { useRef, useState } from "react";
 
 const services = [
   {
-    title: "Web Development",
-    description:
-      "Responsive, fast, and scalable websites tailored to your business.",
-    icon: <Code className="w-7 h-7 text-blue-500" />,
-    color: "blue",
+    num: "01",
+    title: "Web Architecture",
+    description: "Engineering scalable, high-performance web ecosystems using Next.js and modern cloud infrastructure.",
+    icon: <Code className="w-5 h-5 stroke-[1.5]" />,
   },
   {
-    title: "UI/UX Design",
-    description:
-      "Crafting intuitive and elegant interfaces with modern design systems.",
-    icon: <Palette className="w-7 h-7 text-pink-500" />,
-    color: "pink",
+    num: "02",
+    title: "Experience Design",
+    description: "Crafting immersive, conversion-focused interfaces that prioritize user flow and brand identity.",
+    icon: <Palette className="w-5 h-5 stroke-[1.5]" />,
   },
   {
-    title: "AI Solutions",
-    description: "Smart applications powered with AI to enhance your workflow.",
-    icon: <Cpu className="w-7 h-7 text-purple-500" />,
-    color: "purple",
+    num: "03",
+    title: "AI Integration",
+    description: "Implementing cognitive capabilities through LLM orchestration and intelligent automation workflows.",
+    icon: <Cpu className="w-5 h-5 stroke-[1.5]" />,
   },
   {
-    title: "Deployments",
-    description:
-      "Reliable cloud architecture with seamless deployment pipelines.",
-    icon: <Cloud className="w-7 h-7 text-cyan-500" />,
-    color: "cyan",
+    num: "04",
+    title: "Cloud Operations",
+    description: "Designing resilient CI/CD pipelines and automated deployment strategies for zero-downtime scaling.",
+    icon: <Cloud className="w-5 h-5 stroke-[1.5]" />,
   },
   {
-    title: "Product Launch",
-    description: "From MVP to scaling — helping you launch and grow faster.",
-    icon: <Rocket className="w-7 h-7 text-green-500" />,
-    color: "green",
+    num: "05",
+    title: "Product Strategy",
+    description: "Accelerating the journey from MVP to market leader through data-driven engineering and rapid iteration.",
+    icon: <Rocket className="w-5 h-5 stroke-[1.5]" />,
   },
   {
-    title: "Security",
-    description: "Making sure that the system is secure with latest algorithms",
-    icon: <Lock className="w-7 h-7 text-green-500" />,
-    color: "green",
+    num: "06",
+    title: "Secure Engineering",
+    description: "Hardening digital assets with advanced encryption and proactive security protocols.",
+    icon: <Lock className="w-5 h-5 stroke-[1.5]" />,
   },
 ];
+
+const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
+
 export default function ServicesSection() {
-  const ref = useRef(null);
-  // const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-15%" });
 
   return (
-    <section id="services" className="relative py-24 px-6 md:px-12 bg-background overflow-hidden">
-  
-      {/* Animated background threads */}
-      <div className="absolute inset-0 -z-10">
-        {/* Horizontal thread */}
-        <motion.div
-          animate={{ x: ["0%", "10%", "0%"] }}
-          transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }}
-          className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-900/40 to-transparent"
-        />
-        {/* Diagonal thread */}
-        <motion.div
-          animate={{ y: ["0%", "15%", "0%"] }}
-          transition={{ repeat: Infinity, duration: 18, ease: "easeInOut" }}
-          className="absolute left-1/4 top-0 h-full w-px bg-gradient-to-b from-transparent via-purple-500/30 to-transparent"
-        />
-        {/* Another soft layer */}
-        <motion.div
-          animate={{ x: ["0%", "-8%", "0%"], y: ["0%", "8%", "0%"] }}
-          transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }}
-          className="absolute right-1/4 bottom-0 h-full w-px bg-gradient-to-b from-transparent via-pink-500/20 to-transparent"
-        />
-      </div>
+    <section id="services" className="relative py-12  bg-background overflow-hidden">
+      {/* Subtle ambient backdrop */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-      {/* Floating particles */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full opacity-20"
-            style={{
-              background: `linear-gradient(45deg, ${
-                ["#3b82f6", "#ec4899", "#8b5cf6", "#06b6d4", "#10b981"][i % 5]
-              }, transparent)`,
-              width: `${Math.random() * 30 + 10}px`,
-              height: `${Math.random() * 30 + 10}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              x: [0, 10, 0],
-              rotate: [0, 180, 360],
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: Math.random() * 5,
-            }}
-          />
-        ))}
-      </div>
+      <div className="container mx-auto  relative z-10">
+        <header className="mb-16 md:mb-24">
+          <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-4 block">
+            What we do
+          </span>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-normal font-serif tracking-tight leading-[0.95] text-foreground">
+            Selected <span className="italic font-light text-muted-foreground">capabilities</span>
+          </h2>
+        </header>
 
-      {/* Heading */}
-      <motion.div 
-        className="text-center mb-16"
-        transition={{ duration: 0.6 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-          Our <span className="text-gradient bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Services</span>
-        </h2>
-        <motion.p 
-          className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto"
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Delivering clean, reliable, and scalable solutions that bring real
-          value.
-        </motion.p>
-      </motion.div>
+        <div ref={containerRef} className="relative border-t border-foreground/10" role="list">
+          {services.map((service, i) => {
+            const isHovered = hoveredIndex === i;
+            return (
+              <motion.div
+                key={service.num}
+                role="listitem"
+                initial={{ opacity: 0, y: 40 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.8, delay: i * 0.08, ease: EASE_PREMIUM }}
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className="relative border-b border-foreground/10 px-4 md:px-8 py-8 md:py-12 cursor-pointer group overflow-hidden"
+              >
+                {/* Hover Background Slide */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-foreground/5 via-foreground/3 to-transparent pointer-events-none"
+                  initial={{ x: "-100%" }}
+                  animate={{ x: isHovered ? "0%" : "-100%" }}
+                  transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                />
 
-      {/* Grid */}
-      <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {services.map((service, i) => (
-          <ServiceCard key={i} service={service} index={i}  />
-        ))}
+                {/* Left Accent Line */}
+                <motion.div
+                  className="absolute left-0 top-0 bottom-0 w-px bg-primary/0 group-hover:bg-primary/30 transition-colors duration-500"
+                  animate={{ scaleX: isHovered ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+                  style={{ transformOrigin: "left" }}
+                />
+
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-center">
+                  {/* Number & Icon */}
+                  <div className="md:col-span-2 flex items-center gap-4 md:gap-6">
+                    <span className="text-sm font-mono text-muted-foreground tabular-nums group-hover:text-primary transition-colors duration-300">
+                      {service.num}
+                    </span>
+                    <motion.div
+                      animate={{ scale: isHovered ? 1.15 : 1 }}
+                      className="text-muted-foreground group-hover:text-primary transition-colors duration-300"
+                    >
+                      {service.icon}
+                    </motion.div>
+                  </div>
+
+                  {/* Title */}
+                  <div className="md:col-span-4">
+                    <motion.h3
+                      className="text-xl md:text-2xl lg:text-3xl font-serif text-foreground tracking-tight group-hover:text-primary transition-colors duration-300"
+                      animate={{ x: isHovered ? 8 : 0 }}
+                      transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+                    >
+                      {service.title}
+                    </motion.h3>
+                  </div>
+
+                  {/* Description */}
+                  <div className="md:col-span-5 mt-2 md:mt-0">
+                    <motion.p
+                      className="text-sm md:text-base leading-relaxed text-muted-foreground max-w-xl group-hover:text-foreground/80 transition-colors duration-300"
+                      animate={{ opacity: isHovered ? 1 : 0.6, x: isHovered ? 4 : 0 }}
+                      transition={{ duration: 0.4, ease: EASE_PREMIUM }}
+                    >
+                      {service.description}
+                    </motion.p>
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="md:col-span-1 flex justify-end">
+                    <motion.div
+                      className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center text-muted-foreground/60"
+                      animate={{
+                        scale: isHovered ? 1 : 0.85,
+                        opacity: isHovered ? 1 : 0.4,
+                        backgroundColor: isHovered ? "hsl(var(--primary))" : "transparent",
+                        borderColor: isHovered ? "hsl(var(--primary))" : "hsl(var(--foreground)/0.1)",
+                        color: isHovered ? "hsl(var(--background))" : "hsl(var(--muted-foreground))",
+                        rotate: isHovered ? 45 : 0,
+                      }}
+                      transition={{ duration: 0.3, ease: EASE_PREMIUM }}
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 }
-
-const ServiceCard = ({ service, index,  }: { service: any; index: number; }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const cardRef = useRef(null);
-  
-  return (
-    <motion.div
-      ref={cardRef}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ 
-        scale: 1.03, 
-        y: -5,
-        transition: { duration: 0.2 }
-      }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="relative rounded-2xl border border-border bg-card/90 backdrop-blur-sm p-8 shadow-sm hover:shadow-lg transition-all duration-500 group overflow-hidden"
-    >
-      {/* Geometric background pattern */}
-      <div className="absolute inset-0 -z-10 opacity-10 group-hover:opacity-20 transition-opacity duration-700">
-        <svg className="w-full h-full" viewBox="0 0 100 100">
-          <path
-            d="M0,0 L100,0 L100,100 L0,100 Z"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="0.5"
-          />
-          <line x1="0" y1="30" x2="100" y2="30" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="0" y1="60" x2="100" y2="60" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="30" y1="0" x2="30" y2="100" stroke="currentColor" strokeWidth="0.3" />
-          <line x1="60" y1="0" x2="60" y2="100" stroke="currentColor" strokeWidth="0.3" />
-        </svg>
-      </div>
-      
-      {/* Animated gradient orb */}
-      <motion.div
-        className="absolute -right-10 -top-10 w-32 h-32 rounded-full opacity-20 group-hover:opacity-30 blur-xl"
-        animate={{
-          background: isHovered 
-            ? [`radial-gradient(circle, #3b82f6, transparent)`, `radial-gradient(circle, #ec4899, transparent)`]
-            : `radial-gradient(circle, #8b5cf6, transparent)`,
-          scale: isHovered ? [1, 1.2, 1] : 1,
-        }}
-        transition={{ duration: 4, repeat: Infinity }}
-      />
-      
-      {/* Content */}
-      <div className="relative z-10">
-        {/* Icon with floating animation */}
-        <motion.div
-          animate={{ 
-            y: isHovered ? [-5, 5, -5] : 0,
-            rotate: isHovered ? [0, 5, -5, 0] : 0,
-          }}
-          transition={{ 
-            duration: 3, 
-            repeat: isHovered ? Infinity : 0,
-            ease: "easeInOut"
-          }}
-          className="mb-6 inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-600/20 text-white shadow-lg"
-        >
-          {service.icon}
-        </motion.div>
-
-        {/* Title */}
-        <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 transition-all duration-500">
-          {service.title}
-        </h3>
-
-        {/* Description */}
-        <motion.p 
-          className="text-muted-foreground leading-relaxed group-hover:text-foreground/90 transition-colors duration-500"
-          initial={{ opacity: 0.8 }}
-          animate={{ opacity: isHovered ? 1 : 0.8 }}
-        >
-          {service.description}
-        </motion.p>
-        
-        {/* Hover indicator line */}
-        <motion.div 
-          className="h-1 mt-4 bg-gradient-to-r from-blue-500/10 to-purple-500/20 rounded-full"
-          initial={{ width: "0%" }}
-          animate={{ width: isHovered ? "100%" : "0%" }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
-      
-      {/* Floating particles on hover */}
-      {isHovered && (
-        <>
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                background: `linear-gradient(45deg, ${service.color || "#3b82f6"}, ${service.accentColor || "#8b5cf6"})`,
-                width: `${Math.random() * 8 + 4}px`,
-                height: `${Math.random() * 8 + 4}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-              }}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ 
-                opacity: [0, 0.8, 0],
-                y: [0, -40],
-                x: [0, (Math.random() - 0.5) * 30],
-              }}
-              transition={{
-                duration: Math.random() * 1.5 + 1,
-                ease: "easeOut",
-                delay: i * 0.2,
-              }}
-            />
-          ))}
-        </>
-      )}
-      
-      {/* Subtle border glow on hover */}
-      <motion.div
-        className="absolute inset-0 rounded-2xl border-2 pointer-events-none"
-        initial={{ opacity: 0, borderColor: "transparent" }}
-        animate={{ 
-          opacity: isHovered ? 1 : 0,
-          borderColor: isHovered ? ["#3b82f6", "#8b5cf6", "#3b82f6"] : "transparent"
-        }}
-        transition={{ duration: 1.5, repeat: isHovered ? Infinity : 0 }}
-      />
-    </motion.div>
-  );
-};

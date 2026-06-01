@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Modal,
   ModalBody,
@@ -8,7 +8,7 @@ import {
   ModalTrigger,
 } from "../ui/animated-modal";
 import { motion } from "motion/react";
-import { Star } from "lucide-react";
+import { Star, MessageSquare, Shield, RefreshCw } from "lucide-react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/firebase";
 import { toast } from "sonner";
@@ -21,28 +21,19 @@ export function FeedbackModal() {
   const [note, setNote] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const images = [
-    "https://images.unsplash.com/photo-1517322048670-4fba75cbbb62?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1573790387438-4da905039392?q=80&w=3425&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1555400038-63f5ba517a47?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1554931670-4ebfabf6e7a9?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=2581&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ];
-
   const handleSubmit = async () => {
     if (rating === 0) {
       toast.error("Please provide a rating");
       return;
     }
     if (note.length < 3) {
-      toast.error("Please add more than three characters ");
+      toast.error("Please add more than three characters");
       return;
     }
 
     setIsSubmitting(true);
 
     try {
-      // Add document to Firestore
       await addDoc(collection(db, "portfolio-feedback"), {
         rating: rating,
         note: note,
@@ -50,18 +41,18 @@ export function FeedbackModal() {
         timestamp: serverTimestamp(),
         pageUrl: window.location.href,
         userAgent: navigator.userAgent,
-      }).then(() => {
-        toast.success("Thanks for your feedback");
-        setSubmitted(false);
       });
 
+      toast.success("Thank you for your feedback");
+      setSubmitted(true);
+
       setTimeout(() => {
-        // Reset form after success
         setRating(0);
         setNote("");
         setEmail("");
         setIsSubmitting(false);
-      }, 2000);
+        setSubmitted(false);
+      }, 3000);
     } catch (err) {
       console.error("Error adding document: ", err);
       toast.error("Failed to submit feedback. Please try again.");
@@ -70,223 +61,136 @@ export function FeedbackModal() {
   };
 
   return (
-    <>
-      <Modal>
-        <ModalTrigger className="bg-gradient-to-r bg-secondary z-[100] text-black fixed bottom-20 right-4 animate-bounce flex justify-center group/modal-btn pr-6 pl-4 py-3 shadow-lg hover:shadow-xl transition-all duration-700">
-          😊 Feedback
-        </ModalTrigger>
-        <ModalBody>
-          <ModalContent>
-            {!submitted ? (
-              <>
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-center mb-6"
-                >
-                  <h4 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
-                    Share Your Experience
-                  </h4>
-                  <p className="text-neutral-600 dark:text-neutral-300 mt-2">
-                    We'd love to hear what you think!
-                  </p>
-                </motion.div>
-
-                {/* Rating Stars */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                  className="flex justify-center mb-8"
-                >
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <motion.div
-                      key={star}
-                      whileHover={{ scale: 1.2 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="cursor-pointer mx-1"
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoverRating(star)}
-                      onMouseLeave={() => setHoverRating(0)}
-                    >
-                      <Star
-                        size={32}
-                        className={
-                          star <= (hoverRating || rating)
-                            ? "fill-yellow-400 text-yellow-400"
-                            : "text-gray-300"
-                        }
-                      />
-                    </motion.div>
-                  ))}
-                </motion.div>
-
-                {/* Feedback Form */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="space-y-4"
-                >
-                  <textarea
-                    required
-                    placeholder="What did you like most? How can we improve?"
-                    className="w-full p-4 border border-gray-200 dark:border-neutral-700 rounded-xl resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-neutral-800"
-                    rows={4}
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                  />
-                  <input
-                    type="email"
-                    placeholder="Your email (optional)"
-                    className="w-full p-4 border border-gray-200 dark:border-neutral-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-neutral-800"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </motion.div>
-
-                {/* Happy Customers */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.5, delay: 0.6 }}
-                  className="py-6 flex flex-wrap gap-x-4 gap-y-6 items-start justify-start mx-auto"
-                >
-                  <div className="flex items-center justify-center">
-                    <MessageIcon className="mr-1 text-purple-600 h-4 w-4" />
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      10+ Reviews
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <HappyIcon className="mr-1 text-purple-600 h-4 w-4" />
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      75% Satisfaction
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <ImproveIcon className="mr-1 text-purple-600 h-4 w-4" />
-                    <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-                      Always Improving
-                    </span>
-                  </div>
-                </motion.div>
-              </>
-            ) : (
+    <Modal>
+      <ModalTrigger className="z-[100] fixed bottom-8 right-8 border border-foreground/10 bg-background text-foreground text-xs font-mono uppercase tracking-widest px-6 py-3 rounded-full hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors shadow-sm duration-300">
+        Feedback
+      </ModalTrigger>
+      <ModalBody>
+        <ModalContent className="">
+          {!submitted ? (
+            <>
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-10"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="text-center mb-6"
               >
-                <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    rotate: [0, 10, -10, 0],
-                  }}
-                  transition={{ duration: 0.5 }}
-                  className="text-6xl mb-4"
-                >
-                  🎉
-                </motion.div>
-                <h4 className="text-2xl font-bold text-purple-600 mb-2">
-                  Thank You!
+                <h4 className="text-3xl font-serif text-foreground font-normal">
+                  Share your <span className="italic font-light text-primary">thoughts</span>
                 </h4>
-                <p className="text-neutral-600 dark:text-neutral-300">
-                  Your feedback means the world to us.
+                <p className="text-xs text-neutral-400 mt-2 font-mono uppercase tracking-wider">
+                  Your feedback helps shape the work.
                 </p>
               </motion.div>
-            )}
-          </ModalContent>
-          <ModalFooter className="gap-4">
-            {!submitted ? (
-              <>
-                
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm rounded-xl shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Feedback"}
-                </motion.button>
-              </>
-            ) : (
-              <motion.button
+
+              {/* Rating Stars */}
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white text-sm rounded-xl"
-                onClick={() => {
-                  // This will close the modal
-                  document.dispatchEvent(
-                    new KeyboardEvent("keydown", { key: "Escape" })
-                  );
-                }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="flex justify-center mb-8 gap-2"
               >
-                Close
-              </motion.button>
-            )}
-          </ModalFooter>
-        </ModalBody>
-      </Modal>
-    </>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <motion.div
+                    key={star}
+                    whileHover={{ scale: 1.15 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="cursor-pointer"
+                    onClick={() => setRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                  >
+                    <Star
+                      size={28}
+                      className={
+                        star <= (hoverRating || rating)
+                          ? "fill-primary text-primary stroke-[1.5]"
+                          : "text-neutral-200 dark:text-neutral-800 stroke-[1.5]"
+                      }
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Feedback Form */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="space-y-4"
+              >
+                <textarea
+                  required
+                  placeholder="What did you think? How can we improve?"
+                  className="w-full p-4 border border-foreground/10 rounded-xl resize-none focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary bg-background text-sm leading-relaxed"
+                  rows={4}
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                />
+                <input
+                  type="email"
+                  placeholder="Your email (optional)"
+                  className="w-full p-4 border border-foreground/10 rounded-xl focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary bg-background text-sm"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </motion.div>
+
+              {/* Minimal Info Badges */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="py-6 flex justify-between border-t border-foreground/10 mt-6 text-neutral-400"
+              >
+                <div className="flex items-center gap-2">
+                  <MessageSquare size={14} className="stroke-[1.5]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest">
+                    Direct Log
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Shield size={14} className="stroke-[1.5]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest">
+                    Secure
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RefreshCw size={14} className="stroke-[1.5]" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest">
+                    Continuous
+                  </span>
+                </div>
+              </motion.div>
+            </>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-12 flex flex-col items-center justify-center"
+            >
+              <span className="text-4xl mb-6">✓</span>
+              <h4 className="text-2xl font-serif text-foreground mb-2">
+                Thank You
+              </h4>
+              <p className="text-sm text-neutral-500 max-w-xs leading-relaxed">
+                Your response has been logged and helps improve my digital crafts.
+              </p>
+            </motion.div>
+          )}
+        </ModalContent>
+        <ModalFooter className="w-full flex justify-end">
+          {!submitted && (
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="w-full px-6 py-3 bg-foreground text-background text-xs font-mono uppercase tracking-widest rounded-xl shadow-sm hover:bg-foreground/90 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? "Sending..." : "Submit Feedback"}
+            </button>
+          )}
+        </ModalFooter>
+      </ModalBody>
+    </Modal>
   );
 }
-
-// Icons remain the same
-const MessageIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" />
-    </svg>
-  );
-};
-
-const HappyIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-      <path d="M9 9l.01 0" />
-      <path d="M15 9l.01 0" />
-      <path d="M8 13a4 4 0 1 0 8 0" />
-    </svg>
-  );
-};
-
-const ImproveIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      className={className}
-    >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-      <path d="M9.663 17h-2.663a3 3 0 0 1 -3 -3v-3a3 3 0 0 1 3 -3h10a3 3 0 0 1 3 3v1.5" />
-      <path d="M12 15l-2 -2h4l-2 2" />
-      <path d="M15 19l2 2l4 -4" />
-    </svg>
-  );
-};

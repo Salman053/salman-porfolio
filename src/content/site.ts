@@ -61,6 +61,104 @@ export const site = {
 
 
 
+export const archiveProjects = [
+  {
+    id: "enterprise-arch",
+    title: "Enterprise Architecture",
+    category: "Ecosystem Mastery",
+    description: "Full-stack ERP solution with real-time analytics, role-based access, and multi-tenant architecture.",
+    images: ["/erp.PNG", "/erp (1).PNG", "/erp (2).PNG", "/erp (3).PNG"],
+    colSpan: "md:col-span-2",
+    href: "https://erp-product.vercel.app/",
+    tags: ["Next.js Core", "PostgreSQL", "Cloud Operations"],
+    metrics: { users: "10k+", uptime: "99.9%" },
+    year: "2024"
+  },
+  {
+    id: "intelligent-os",
+    title: "Intelligent OS",
+    category: "Cognitive Workflow",
+    description: "AI-powered personal management system with LLM integration, task automation, and contextual awareness.",
+    images: ["/pms.PNG", "/personal (1).PNG", "/personal (2).PNG", "/personal (4).PNG"],
+    colSpan: "md:col-span-2",
+    href: "https://personal-management-system-web.vercel.app/",
+    tags: ["LLM Integration", "Edge Compute", "Vector Streams"],
+    metrics: { responses: "<200ms", models: "3+" },
+    year: "2024"
+  },
+  {
+    id: "health-core",
+    title: "Health Core",
+    category: "Security First",
+    description: "HIPAA-compliant health management platform with end-to-end encryption and audit trails.",
+    images: ["/hms (2).PNG"],
+    colSpan: "md:col-span-1",
+    href: "#",
+    tags: ["Security First", "Node.js", "HIPAA"],
+    metrics: { compliance: "100%" },
+    year: "2023"
+  },
+  {
+    id: "skills-fusion",
+    title: "Skills Fusion",
+    category: "Real-time",
+    description: "Live collaborative learning platform with WebRTC, real-time code execution, and peer reviews.",
+    images: ["/skillsfusion(3).PNG"],
+    colSpan: "md:col-span-1",
+    href: "https://skills-fusion-client.vercel.app/",
+    tags: ["Real-time", "Firebase", "WebRTC"],
+    metrics: { latency: "<50ms" },
+    year: "2024"
+  },
+  {
+    id: "eazy-commerce",
+    title: "Eazy Commerce",
+    category: "Commerce Core",
+    description: "Headless POS system with inventory sync, payment orchestration, and offline-first architecture.",
+    images: ["/eazy.PNG"],
+    colSpan: "md:col-span-2",
+    href: "https://pos-management-system-sage.vercel.app/",
+    tags: ["Commerce Core", "TypeScript", "PWA"],
+    metrics: { transactions: "50k+" },
+    year: "2023"
+  },
+  {
+    id: "type-lab",
+    title: "Type Lab",
+    category: "Performance",
+    description: "Minimalist typing benchmark with real-time WPM analytics, accuracy heatmaps, and progressive challenges.",
+    images: ["/type.PNG"],
+    colSpan: "md:col-span-1",
+    href: "https://typi-love.netlify.app/",
+    tags: ["Performance", "Canvas API"],
+    metrics: { fps: "60" },
+    year: "2023"
+  },
+  {
+    id: "streaming-engine",
+    title: "Streaming Engine",
+    category: "Framer Engine",
+    description: "Netflix-inspired streaming UI with infinite scroll, predictive prefetching, and gesture navigation.",
+    images: ["/net.PNG"],
+    colSpan: "md:col-span-1",
+    href: "https://netflix-clone-jet-iota.vercel.app/",
+    tags: ["Framer Engine", "Intersection Observer"],
+    metrics: { preload: "95%" },
+    year: "2024"
+  },
+  {
+    id: "chronos-ui",
+    title: "Chronos UI",
+    category: "Experimental",
+    description: "Conceptual time-management interface exploring fluid animations, spatial audio, and haptic feedback.",
+    images: ["/clock.PNG"],
+    colSpan: "md:col-span-1",
+    href: "https://clock-amazing.netlify.app/",
+    tags: ["Experimental", "Web Audio API"],
+    metrics: { interactions: "12+" },
+    year: "2024"
+  },
+];
 
 
 export const experience = [

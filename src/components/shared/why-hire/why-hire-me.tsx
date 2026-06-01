@@ -1,215 +1,254 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import {
-  Code,
-  MonitorSmartphone,
-  Paintbrush2,
-  Wand2,
-  LayoutTemplate,
-  Sparkles,
-  CodeXml,
-  FolderHeart,
-  Activity,
-} from "lucide-react";
-import "./why-hire-me.css";
 
-const FeatureCard = ({
-  title,
-  description,
-  icon: Icon,
-  className,
-  highlight,
-}: any) => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [mousePos, setMousePos] = useState<any>({ x: 0, y: 0 });
-  const cardRef = useRef<any>(null);
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { ShieldCheck, Activity, Sparkles, ArrowRight } from "lucide-react";
 
-  const handleMouseMove = (e: any) => {
-    if (cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    }
-  };
+const features = [
+  {
+    num: "01",
+    title: "Clean Architecture",
+    desc: "Well-structured, maintainable code following industry best practices, patterns, and modern standards.",
+  },
+  {
+    num: "02",
+    title: "Adaptive Design",
+    desc: "Seamlessly fluid experiences across all devices, from compact mobile formats to high-resolution displays.",
+  },
+  {
+    num: "03",
+    title: "Pixel Precision",
+    desc: "Meticulous translation of complex designs and layout hierarchies into high-fidelity production code.",
+  },
+  {
+    num: "04",
+    title: "Interactive Logic",
+    desc: "Dynamic, performant components that elevate user engagement and brand perception.",
+  },
+  {
+    num: "05",
+    title: "Strategic Planning",
+    desc: "Logical structure and user-centric flows mapped systematically from initial concept to deployment.",
+  },
+  {
+    num: "06",
+    title: "Professionalism",
+    desc: "Clear communication, reliable delivery, and a continuous focus on long-term client success.",
+  },
+];
 
-  return (
-    <div
-      ref={cardRef}
-      className={`feature-card border mt-7 border-border bg-background text-black${className} ${
-        isHovered ? "hovered" : ""
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
-      style={{
-        "--mouse-x": `${mousePos.x}px`,
-        "--mouse-y": `${mousePos.y}px`,
-      }as any}
-    >
-      {/* Background Effects */}
-      <div className="card-background"></div>
-      {/* <div className="particle-field">
-        {[...Array(8)].map((_, i) => (
-          <div key={i} className={`particle p-${i + 1}`}></div>
-        ))}
-      </div> */}
-
-      {/* Content */}
-      <div className="card-content pt-9 ">
-        <h3 className="feature-title">
-          <span className="title-text ">{title}</span>
-          <span className="title-highlight">{highlight}</span>
-        </h3>
-
-        <p className="feature-description ">{description}</p>
-
-        {/* Icon - in der Box */}
-        {/* <div className="feature-icon">
-          <Icon size={32} />
-        </div> */}
-      </div>
-
-      {/* Border Effects */}
-      <div className="animated-border"></div>
-      <div className="corner-highlights">
-        <div className="corner top-left"></div>
-        <div className="corner top-right"></div>
-        <div className="corner bottom-left"></div>
-        <div className="corner bottom-right"></div>
-      </div>
-    </div>
-  );
-};
+const EASE_PREMIUM = [0.22, 1, 0.36, 1] as  const;
+const EASE_SMOOTH = [0.16, 1, 0.3, 1] as  const;
 
 const WhyHireMe = () => {
-  const [sectionVisible, setSectionVisible] = useState(false);
-  const sectionRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: "-15%" });
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setSectionVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  const features = [
-    {
-      title: "Clean Code",
-      highlight: "Best Practices",
-      description:
-        "Well-structured, readable code that is easy to maintain and built to last. I follow modern standards and focus on quality.",
-      // icon: Code,
-      className: "card-1",
-    },
-    {
-      title: "Responsive Design",
-      highlight: "Mobile First",
-      description:
-        "I create layouts that adapt perfectly to any device. From mobile to desktop, the experience stays consistent and intuitive.",
-      // icon: MonitorSmartphone,
-      className: "card-2",
-    },
-    {
-      title: "Pixel-Perfect ",
-      highlight: "Exact Design to Code",
-      description:
-        "I specialize in transforming Figma into production-ready code with precision. Ensuring the final product mirrors.",
-      // icon: Code2,  // you can swap with a coding-related icon like `Code2` from lucide-react
-      className: "card-3",
-    },
-    {
-      title: "Smart Features",
-      highlight: "Modern Frontend",
-      description:
-        "Interactive logic and dynamic components enhance the experience and make your site stand out. Built with clean, modern JavaScript.",
-      // icon: Wand2,
-      className: "card-4",
-    },
-    {
-      title: "Website Planning",
-      highlight: "Structure",
-      description:
-        "Every project starts with structure. I focus on clear layouts and logical flow, from the first idea to the final result.",
-      // icon: LayoutTemplate,
-      className: "card-5",
-    },
-    {
-      title: "Reliable & Professional",
-      highlight: "Work Ethic",
-      description:
-        "I communicate clearly, deliver on time, and stay solution-oriented. My goal is to create results that clients are proud of.",
-      // icon: Sparkles,
-      className: "card-6",
-    },
+  const stats = [
+    { icon: ShieldCheck, text: "Trusted & Secure", delay: 0 },
+    { icon: Activity, text: "High Performance", delay: 0.15 },
+    { icon: Sparkles, text: "Creative Solutions", delay: 0.3 },
   ];
 
   return (
-    <section
-      ref={sectionRef}
-      id="why"
-      className={`bg-background p-5 ${sectionVisible ? "visible" : ""}`}
-    >
-      {/* Background Elements Blue Circle */}
-      <div className="section-background">
-        <div className="bg-grid"></div>
-        <div className="floating-elements">
-          <div className="float-orb orb-1"></div>
-          <div className="float-orb orb-2"></div>
-          <div className="float-orb orb-3"></div>
-        </div>
-      </div>
+    <section id="why" className="relative py-12 bg-background overflow-hidden">
+      {/* Ambient backdrop gradient */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" aria-hidden="true" />
 
-      <div className="features-container">
-        {/* Header */}
-        <div className="section-header">
-          <h2 className="section-title">
-            <span className="title-main ">Why Hire</span>
-            <span className="title-accent  ">Me?</span>
-          </h2>
-          <p className="section-subtitle text-foreground   text-xl">
-            Every detail matters: I create visually stunning and intuitive
-            interfaces that reflect your brand&apos;s personality.
+      <div ref={containerRef} className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+          
+          {/* Left Column: Editorial Heading */}
+          <motion.div 
+            className="lg:col-span-5 flex flex-col justify-start"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.9, ease: EASE_PREMIUM }}
+          >
+            <motion.span 
+              initial={{ opacity: 0, y: 16 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1, ease: EASE_SMOOTH }}
+              className="text-xs font-semibold uppercase tracking-[0.35em] text-muted-foreground mb-6 block"
+            >
+              Our Philosophy
+            </motion.span>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 24 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1, delay: 0.2, ease: EASE_PREMIUM }}
+              className="text-4xl md:text-6xl lg:text-7xl font-normal font-serif tracking-tight leading-[0.95] mb-8"
+            >
+              Why partner <br />
+              with <span className="italic font-light text-primary relative inline-block">
+                MSK
+                <motion.span 
+                  className="absolute -bottom-1 left-0 w-full h-px bg-primary/40"
+                  initial={{ scaleX: 0 }}
+                  animate={isInView ? { scaleX: 1 } : {}}
+                  transition={{ duration: 1.2, delay: 0.8, ease: EASE_PREMIUM }}
+                />
+              </span>
+            </motion.h2>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.35, ease: EASE_SMOOTH }}
+              className="text-lg text-muted-foreground max-w-md leading-relaxed mb-12"
+            >
+              We do not just write code. We build digital assets designed to scale, perform, and leave an indelible impression.
+            </motion.p>
+
+            {/* Desktop Stats - Glassmorphic Cards */}
+            <div className="hidden lg:flex flex-col gap-4 pt-8 border-t border-foreground/10">
+              {stats.map((stat, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.5 + stat.delay, ease: EASE_SMOOTH }}
+                  whileHover={{ x: 4 }}
+                  className="group flex items-center gap-4 p-3 rounded-xl bg-foreground/5 backdrop-blur-sm border border-foreground/10 hover:border-primary/30 transition-colors cursor-default"
+                >
+                  <motion.div
+                    whileHover={{ rotate: 8, scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary"
+                  >
+                    <stat.icon className="w-4 h-4 stroke-[1.5]" />
+                  </motion.div>
+                  <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors">
+                    {stat.text}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Column: Features List */}
+          <motion.div 
+            className="lg:col-span-7"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div className="border-t border-foreground/10">
+              {features.map((feature, i) => (
+                <motion.div 
+                  key={feature.num}
+                  initial={{ opacity: 0, y: 24 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: 0.5 + i * 0.08, ease: EASE_PREMIUM }}
+                  whileHover={{ backgroundColor: "hsl(var(--muted) / 0.4)" }}
+                  className="relative py-9 md:py-10 border-b border-foreground/10 px-3 md:px-5 grid grid-cols-1 sm:grid-cols-12 gap-5 items-start group transition-colors duration-300 rounded-xl"
+                >
+                  {/* Subtle left accent line on hover */}
+                  <motion.div
+                    className="absolute left-0 top-3 bottom-3 w-px bg-primary/0 group-hover:bg-primary/40 transition-colors duration-400 rounded-full"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ transformOrigin: "left" }}
+                  />
+
+                  {/* Number Badge */}
+                  <div className="sm:col-span-2 flex items-center">
+                    <motion.span 
+                      className="text-sm font-mono text-muted-foreground tabular-nums group-hover:text-primary transition-colors duration-300"
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
+                    >
+                      {feature.num}
+                    </motion.span>
+                  </div>
+
+                  {/* Content */}
+                  <div className="sm:col-span-10">
+                    <motion.h3 
+                      className="text-lg md:text-xl lg:text-2xl font-serif text-foreground tracking-tight mb-2.5 group-hover:text-primary transition-colors duration-300"
+                      animate={{ x: [0, 3, 0] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 + i * 0.2 }}
+                    >
+                      {feature.title}
+                    </motion.h3>
+                    <motion.p 
+                      className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl group-hover:text-foreground/80 transition-colors duration-300"
+                      initial={{ opacity: 0.8 }}
+                      whileHover={{ opacity: 1 }}
+                    >
+                      {feature.desc}
+                    </motion.p>
+                  </div>
+
+                  {/* Hover Arrow Indicator */}
+                  <motion.div
+                    className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ x: -8 }}
+                    whileHover={{ x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ArrowRight className="w-4 h-4 text-primary" />
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Mobile Stats - Horizontal Scroll */}
+        <motion.div 
+          className="mt-16 lg:hidden pt-8 border-t border-foreground/10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, delay: 0.8 }}
+        >
+          <div className="flex gap-4 overflow-x-auto pb-4 -mx-6 px-6 scrollbar-hide">
+            {stats.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                transition={{ duration: 0.5, delay: 0.9 + i * 0.1 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex-shrink-0 flex items-center gap-3 px-4 py-3 rounded-xl bg-foreground/5 backdrop-blur-sm border border-foreground/10"
+              >
+                <stat.icon className="w-4 h-4 text-primary stroke-[1.5]" />
+                <span className="text-xs font-mono uppercase tracking-widest text-muted-foreground whitespace-nowrap">
+                  {stat.text}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Subtle CTA Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 1.1, duration: 0.8 }}
+          className="mt-20 pt-12 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <p className="text-sm text-muted-foreground font-mono uppercase tracking-widest">
+            Ready to elevate your digital presence?
           </p>
-        </div>
-
-        {/* Features Grid */}
-        <div className="features-grid">
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              {...feature}
-              style={{ "--index": index }}
-            />
-          ))}
-        </div>
-
-        {/* Bottom Stats */}
-        <div className="features-stats text-foreground cursor-default">
-          <div className="stat-group">
-            <CodeXml size={20} />
-            <span>Trusted, Secure Code</span>
-          </div>
-          <div className="stat-group">
-            <FolderHeart size={20} />
-            <span>Ongoing Partnership</span>
-          </div>
-          <div className="stat-group">
-            <Activity size={20} />
-            <span>Crafting with Care and Passion</span>
-          </div>
-        </div>
+          <a
+            href="#contact"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-foreground/15 
+              text-sm font-medium uppercase tracking-widest hover:bg-foreground hover:text-background 
+              transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+          >
+            Let's Collaborate
+            <motion.span
+              className="inline-block"
+              animate={{ x: [0, 5, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              →
+            </motion.span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );
