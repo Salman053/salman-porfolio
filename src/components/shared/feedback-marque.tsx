@@ -4,8 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Star, User, ArrowLeft, ArrowRight } from "lucide-react";
 import { formatDate } from "@/lib/date-utils";
 import { useFirestoreData } from "@/hooks/use-firebase-data";
-import GridDistortion from "../animated/grid-distortion";
-import { FlickeringBackground } from "../animated/flicker-background";
 import { FlickeringGrid } from "../magicui/flickering-grid";
 
 interface FeedbackData {

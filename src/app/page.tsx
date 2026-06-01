@@ -15,12 +15,10 @@ import SplitScreenAbout from "../components/shared/split-screen-about";
 import { SectionWrapper } from "../components/shared/section-wrapper";
 import { useHasScrolled } from "@/hooks/useHasScrolled";
 import ScrollToTopButton from "@/components/ui/scroll-to-top-button";
-import { InteractiveBackground } from "@/components/animated/interactive-background";
 export default function Page() {
   const { hasScrolled } = useHasScrolled(100);
   return (
     <main className="relative overflow-x-hidden bg-transparent">
-      <InteractiveBackground/>
       <MinimalNavbar />
 
       <SectionWrapper id="intro">
@@ -67,7 +65,7 @@ export default function Page() {
       <FeedBackModal />
 
 
-      {/* {hasScrolled && <ScrollToTopButton />} */}
+      {hasScrolled && <ScrollToTopButton />}
     </main>
   );
 }
