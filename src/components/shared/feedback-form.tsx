@@ -136,32 +136,7 @@ export function FeedbackModal() {
                 />
               </motion.div>
 
-              {/* Minimal Info Badges */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4, delay: 0.3 }}
-                className="py-6 flex justify-between border-t border-foreground/10 mt-6 text-neutral-400"
-              >
-                <div className="flex items-center gap-2">
-                  <MessageSquare size={14} className="stroke-[1.5]" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest">
-                    Direct Log
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield size={14} className="stroke-[1.5]" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest">
-                    Secure
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <RefreshCw size={14} className="stroke-[1.5]" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest">
-                    Continuous
-                  </span>
-                </div>
-              </motion.div>
+            
             </>
           ) : (
             <motion.div

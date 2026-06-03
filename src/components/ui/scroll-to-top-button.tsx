@@ -25,7 +25,10 @@ const ScrollToTopButton = () => {
       const maxScroll = documentHeight - windowHeight;
       const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
       
-      const strokeDashoffset = 138.23 - (138.23 * progress);
+      // Calculate circumference based on current radius
+      const radius = 20; // Same as r="20"
+      const circumference = 2 * Math.PI * radius; // ~125.66 (more accurate than 138.23)
+      const strokeDashoffset = circumference - (circumference * progress);
       progressCircleRef.current.style.strokeDashoffset = String(strokeDashoffset);
       ticking = false;
     };
@@ -69,8 +72,8 @@ const ScrollToTopButton = () => {
       style={{ opacity: 0, visibility: "hidden", transform: "scale(0.8)" }}
     >
       <div className="relative w-10 h-10 sm:w-12 sm:h-12">
-        {/* Static background */}
-        <svg className="absolute inset-0 w-full h-full -rotate-90">
+        {/* Static background - now responsive */}
+        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
           <circle
             cx="24"
             cy="24"
@@ -83,8 +86,8 @@ const ScrollToTopButton = () => {
           />
         </svg>
         
-        {/* Animated progress - Direct DOM manipulation */}
-        <svg className="absolute inset-0 w-full h-full -rotate-90">
+        {/* Animated progress - now responsive */}
+        <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 48 48">
           <circle
             ref={progressCircleRef}
             cx="24"
@@ -97,8 +100,8 @@ const ScrollToTopButton = () => {
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
             style={{
-              strokeDasharray: "138.23",
-              strokeDashoffset: "138.23",
+              strokeDasharray: "125.66", // 2 * PI * 20
+              strokeDashoffset: "125.66",
               transition: "stroke-dashoffset 0.016s linear"
             }}
           />
