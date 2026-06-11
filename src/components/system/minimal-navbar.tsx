@@ -279,7 +279,7 @@ export const MinimalNavbar = () => {
                   role="menuitem"
                   className={`relative px-3 py-2.5 text-[11px] font-semibold uppercase tracking-[0.08em] rounded-lg transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer
                     ${isActive 
-                      ? "text-foreground bg-primary/5" 
+                      ? "text-foreground bg-background/50 dark:bg-gray-700/60" 
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                     }`}
                   whileHover={{ y: -1 }}

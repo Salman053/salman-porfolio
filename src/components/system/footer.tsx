@@ -14,8 +14,8 @@ const Footer = () => {
           
           {/* Brand section */}
           <div className="lg:col-span-1">
-            <div className="text-4xl font-normal font-serif tracking-tight text-foreground mb-6">
-              MSK<span className="text-primary">.</span>
+            <div className="text-4xl font-bold font-serif tracking-tight text-foreground mb-6">
+              Salman<span className="text-primary font-normal">&nbsp;.</span>
             </div>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8 max-w-xs leading-relaxed">
               Engineering high-impact digital experiences through clean software architecture and intuitive, human-centered design.

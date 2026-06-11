@@ -209,12 +209,12 @@ export default function SplitScreenAbout() {
                   icon: <Github className="w-4 h-4" />
                 }, {
                   label: "LinkedIn",
-                  href: "https://www.linkedin.com/in/salmankhanm859/",
+                  href: "linkedin.com/in/muhammadsalmankhan12",
                   icon: <Linkedin className="w-4 h-4" />
                 }, {
-                  label: "Twitter",
-                  href: "https://twitter.com/salmankhanm859",
-                  icon: <Twitter className="w-4 h-4" />
+                  label: "Mail",
+                  href: "mailto:salmankhanm859@gmail.com",
+                  icon: <Mail className="w-4 h-4" />
                 }].map((social) => (
                   <motion.a
                     key={social.label}

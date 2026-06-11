@@ -63,10 +63,10 @@ export const site = {
 
 export const archiveProjects = [
   {
-    id: "enterprise-arch",
-    title: "Enterprise Architecture",
-    category: "Ecosystem Mastery",
-    description: "Full-stack ERP solution with real-time analytics, role-based access, and multi-tenant architecture.",
+    id: "erp-demo",
+    title: "ERP Demo",
+    category: "ERP Business",
+    description: "Frontend only ERP solution with clean ui  ",
     images: ["/erp.PNG", "/erp (1).PNG", "/erp (2).PNG", "/erp (3).PNG"],
     colSpan: "md:col-span-2",
     href: "https://erp-product.vercel.app/",
@@ -75,9 +75,21 @@ export const archiveProjects = [
     year: "2024"
   },
   {
-    id: "intelligent-os",
-    title: "Intelligent OS",
-    category: "Cognitive Workflow",
+    id: "eazy-pos",
+    title: "Eazy POS",
+    category: "POS",
+    description: "Headless POS system with inventory sync, payment orchestration, and offline-first architecture.",
+    images: ["/eazy.PNG"],
+    colSpan: "md:col-span-2",
+    href: "https://pos-management-system-sage.vercel.app/",
+    tags: ["POS SYSTEM", "PWA"],
+    metrics: { transactions: "50k+" },
+    year: "2023"
+  },
+  {
+    id: "personal-management",
+    title: "Personal System ",
+    category: "Personal Workflow",
     description: "AI-powered personal management system with LLM integration, task automation, and contextual awareness.",
     images: ["/pms.PNG", "/personal (1).PNG", "/personal (2).PNG", "/personal (4).PNG"],
     colSpan: "md:col-span-2",
@@ -91,7 +103,7 @@ export const archiveProjects = [
     title: "Health Core",
     category: "Security First",
     description: "HIPAA-compliant health management platform with end-to-end encryption and audit trails.",
-    images: ["/hms (2).PNG"],
+    images: ["/hms (2).PNG","/hms (3).PNG","/hms (4).PNG","/hms (6).PNG"],
     colSpan: "md:col-span-1",
     href: "#",
     tags: ["Security First", "Node.js", "HIPAA"],
@@ -103,25 +115,14 @@ export const archiveProjects = [
     title: "Skills Fusion",
     category: "Real-time",
     description: "Live collaborative learning platform with WebRTC, real-time code execution, and peer reviews.",
-    images: ["/skillsfusion(3).PNG"],
+    images: ["/skillsfusion(3).PNG","/skillsfusion(2).PNG","/skillsfusion(1).PNG","/skillsfusion(5).PNG"],
     colSpan: "md:col-span-1",
     href: "https://skills-fusion-client.vercel.app/",
     tags: ["Real-time", "Firebase", "WebRTC"],
     metrics: { latency: "<50ms" },
     year: "2024"
   },
-  {
-    id: "eazy-commerce",
-    title: "Eazy Commerce",
-    category: "Commerce Core",
-    description: "Headless POS system with inventory sync, payment orchestration, and offline-first architecture.",
-    images: ["/eazy.PNG"],
-    colSpan: "md:col-span-2",
-    href: "https://pos-management-system-sage.vercel.app/",
-    tags: ["Commerce Core", "TypeScript", "PWA"],
-    metrics: { transactions: "50k+" },
-    year: "2023"
-  },
+  
   {
     id: "type-lab",
     title: "Type Lab",

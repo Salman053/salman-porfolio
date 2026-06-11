@@ -82,7 +82,7 @@ const WhyHireMe = () => {
             >
               Why partner <br />
               with <span className="italic font-light text-primary relative inline-block">
-                MSK
+                Salman.
                 <motion.span 
                   className="absolute -bottom-1 left-0 w-full h-px bg-primary/40"
                   initial={{ scaleX: 0 }}

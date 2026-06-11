@@ -23,12 +23,13 @@ export const Backend_skill = [
   { skill_name: "Firebase", Image: "/Firebase.png", width: 35, height: 35 },
   { skill_name: "MySQL", Image: "/mysql.png", width: 40, height: 40 },
   { skill_name: "Python", Image: "/python.png", width: 40, height: 40 },
-  { skill_name: "Flask", Image: "/flask.svg", width: 40, height: 40 },
+  { skill_name: "Laravel", Image: "/Laravel.png", width: 40, height: 40 },
 ];
 
 export const Other_skill = [
   { skill_name: "Stripe", Image: "/stripe.webp", width: 40, height: 40 },
   { skill_name: "ChatGPT API", Image: "/chatgpt-icon.svg", width: 35, height: 35 },
+  { skill_name: "Gemini Cli", Image: "/gemini.webp", width: 35, height: 35 },
 ];
 
 const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;

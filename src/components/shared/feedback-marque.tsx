@@ -138,7 +138,7 @@ const FeedbackShowcase = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 1.02, y: -15 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full border border-foreground/10 rounded-[2.5rem] p-10 md:p-16 flex flex-col items-center justify-center text-center bg-neutral-50/10 dark:bg-neutral-900/10"
+              className="w-full border border-foreground/10 dark:border-gray-700 shadow-lg rounded-[2.5rem] p-10 md:p-16 flex flex-col items-center justify-center text-center bg-neutral-50/10 dark:bg-neutral-900/10"
             >
               {/* Rating stars */}
               <div className="mb-8">

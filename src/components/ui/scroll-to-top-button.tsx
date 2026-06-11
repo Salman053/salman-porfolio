@@ -110,7 +110,7 @@ const ScrollToTopButton = () => {
         {/* Button center */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full border border-foreground/10 bg-background/80 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-foreground/5 transition-colors duration-200">
-            <ArrowUp size={14} className="sm:size-16 stroke-[1.5]" />
+            <ArrowUp  className="md:size-7 stroke-[1.5]" />
           </div>
         </div>
       </div>
