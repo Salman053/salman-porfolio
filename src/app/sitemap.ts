@@ -1,16 +1,14 @@
-// app/sitemap.ts
 import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://salman-porfolio-omega.vercel.app'
-  
+  const baseUrl = 'https://salman-afridi.vercel.app/'
+
   return [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
+      changeFrequency: 'monthly',
       priority: 1,
     },
-    // Add more URLs if you have multiple pages
   ]
 }

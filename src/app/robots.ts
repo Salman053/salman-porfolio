@@ -1,4 +1,3 @@
-// app/robots.ts
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {
@@ -6,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      disallow: ['/api/'],
     },
-    sitemap: 'https://salman-porfolio-omega.vercel.app/sitemap.xml',
+    sitemap: 'https://salman-afridi.vercel.app/sitemap.xml',
   }
 }

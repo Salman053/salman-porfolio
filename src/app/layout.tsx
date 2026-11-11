@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import SmoothScrollProvider from "@/provider/smooth-scroll-provider";
@@ -20,28 +20,109 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://salman-afridi.vercel.app";
+const siteName = "Muhammad Salman Khan | Full-Stack Web Developer";
+const description =
+  "Portfolio of Muhammad Salman Khan, a Full-Stack Web Developer from Kohat, Pakistan building modern, scalable web applications with Next.js, React, TypeScript and Node.js. Explore live projects, skills and experience — available for freelance and full-time roles.";
+
 export const metadata: Metadata = {
-  title: "Muhammad Salman Khan | Full-Stack Web Developer Portfolio",
-  description: "Professional portfolio showcasing web development projects, React expertise, and full-stack solutions. Hire for modern web applications.",
-  keywords: ["web developer", "React developer", "full-stack", "portfolio", "Muhammad Salman Khan"],
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Muhammad Salman Khan | Full-Stack Web Developer",
+    template: "%s | Muhammad Salman Khan",
+  },
+  description,
+  applicationName: siteName,
+  category: "technology",
+  creator: "Muhammad Salman Khan",
+  authors: [{ name: "Muhammad Salman Khan", url: siteUrl }],
+  keywords: [
+    "Muhammad Salman Khan",
+    "Salman Khan developer",
+    "Full-Stack Web Developer",
+    "Frontend Developer",
+    "React Developer",
+    "Next.js Developer",
+    "TypeScript Developer",
+    "Node.js Developer",
+    "Web Developer Pakistan",
+    "Kohat Web Developer",
+    "Freelance Web Developer",
+    "Portfolio",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  // openGraph.images / twitter.images are auto-injected by the
+  // opengraph-image.tsx / twitter-image.tsx file conventions.
   openGraph: {
-    title: "Muhammad Salman Khan - Web Developer",
-    description: "View my latest web development projects and skills",
-    images: ['/og-image.png'],
-  }
-  ,
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName,
+    title: "Muhammad Salman Khan | Full-Stack Web Developer",
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Muhammad Salman Khan | Full-Stack Web Developer",
+    description,
+  },
   robots: {
     index: true,
     follow: true,
     googleBot: {
       index: true,
       follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
+  },
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
   },
 };
 
-import { CustomCursor } from "@/components/animated/custom-cursor"; 
-import { InteractiveBackground } from "@/components/animated/interactive-background";
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0f1e" },
+  ],
+  colorScheme: "light dark",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Muhammad Salman Khan",
+  jobTitle: "Full-Stack Web Developer",
+  url: siteUrl,
+  image: `${siteUrl}/salman.png`,
+  email: "mailto:salmankhanm859@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Kohat",
+    addressRegion: "Khyber Pakhtunkhwa",
+    addressCountry: "PK",
+  },
+  sameAs: [
+    "https://github.com/Salman053",
+    "https://www.linkedin.com/in/muhammadsalmankhan12",
+  ],
+  knowsAbout: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Tailwind CSS",
+    "JavaScript",
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -51,8 +132,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden bg-background`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased overflow-x-hidden bg-background`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Toaster />
           {/* <CustomCursor /> */}
