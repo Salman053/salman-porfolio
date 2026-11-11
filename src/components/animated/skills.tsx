@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { useInView } from "react-intersection-observer";
+import KineticGrid from "../animated-component/kinetic-grid";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 export const Frontend_skill = [
   { skill_name: "HTML 5", Image: "/html.png", width: 40, height: 40 },
@@ -37,6 +39,8 @@ const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
 const Skills = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  const prefersReducedMotion = useReducedMotion();
+  const animDuration = prefersReducedMotion ? 0.15 : 0.7;
 
   const skillCategories = {
     frontend: Frontend_skill,
@@ -53,25 +57,50 @@ const Skills = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.05, delayChildren: 0.15, ease: EASE_PREMIUM },
+      transition: { staggerChildren: prefersReducedMotion ? 0 : 0.05, delayChildren: prefersReducedMotion ? 0 : 0.15, ease: EASE_PREMIUM },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 24, scale: 0.96 },
+    hidden: prefersReducedMotion
+      ? { opacity: 0 }
+      : { opacity: 0, y: 24, scale: 0.96 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.7, ease: EASE_PREMIUM },
+      transition: { duration: animDuration, ease: EASE_PREMIUM },
     },
     exit: { opacity: 0, scale: 0.95, transition: { duration: 0.3 } },
   };
 
   return (
     <section id="skills" className="relative py-12 bg-background overflow-hidden">
-      {/* Subtle ambient backdrop */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
+      {prefersReducedMotion ? (
+        // Static CSS grid background for reduced motion
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 pointer-events-none opacity-[0.08]"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, color-mix(in srgb, var(--foreground) 12%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 12%, transparent) 1px, transparent 1px)",
+            backgroundSize: "50px 50px",
+          }}
+        />
+      ) : (
+        <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
+          <KineticGrid
+            background="transparent"
+            dotColor="currentColor"
+            lineColor="currentColor"
+            trailColor="currentColor"
+            spacing={50}
+            radius={300}
+            strength={3}
+            trail={false}
+          />
+        </div>
+      )}
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
@@ -99,7 +128,7 @@ const Skills = () => {
                 {activeCategory === cat && (
                   <motion.div
                     layoutId="skill-tab-bg"
-                    className="absolute inset-0 bg-foreground/10 md:rounded-full  shadow-sm"
+                    className="absolute inset-0 bg-foreground/10 md:rounded-full shadow-sm"
                     transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
                   />
                 )}
@@ -123,8 +152,8 @@ const Skills = () => {
                 key={skill.skill_name}
                 layout
                 variants={itemVariants}
-                whileHover={{ y: -4, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                whileHover={prefersReducedMotion ? undefined : { y: -4, scale: 1.02 }}
+                whileTap={prefersReducedMotion ? undefined : { scale: 0.98 }}
                 className="group relative bg-background/60 backdrop-blur-sm border border-foreground/5 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:border-foreground/15 transition-colors duration-300 overflow-hidden cursor-default"
               >
                 {/* Subtle gradient on hover */}

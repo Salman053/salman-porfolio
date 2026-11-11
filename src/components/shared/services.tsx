@@ -3,6 +3,7 @@
 import { motion, useInView } from "framer-motion";
 import { Code, Palette, Rocket, Cpu, Cloud, Lock, ArrowUpRight } from "lucide-react";
 import { useRef, useState } from "react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const services = [
   {
@@ -49,13 +50,15 @@ export default function ServicesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-15%" });
+  const prefersReducedMotion = useReducedMotion();
+  const animDuration = prefersReducedMotion ? 0.15 : 0.6;
 
   return (
-    <section id="services" className="relative py-12 md:px-0 px-8  bg-background overflow-hidden">
+    <section id="services" className="relative py-12 md:px-0 px-8 bg-background overflow-hidden">
       {/* Subtle ambient backdrop */}
       <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/5 via-transparent to-transparent pointer-events-none" />
 
-      <div className="container mx-auto  relative z-10">
+      <div className="container mx-auto relative z-10">
         <header className="mb-16 md:mb-24">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground mb-4 block">
             What we do
@@ -72,9 +75,9 @@ export default function ServicesSection() {
               <motion.div
                 key={service.num}
                 role="listitem"
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 40 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.8, delay: i * 0.08, ease: EASE_PREMIUM }}
+                transition={{ duration: animDuration, delay: prefersReducedMotion ? 0 : i * 0.08, ease: EASE_PREMIUM }}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
                 className="relative border-b border-foreground/10 px-4 md:px-8 py-8 md:py-12 cursor-pointer group overflow-hidden"
@@ -84,7 +87,7 @@ export default function ServicesSection() {
                   className="absolute inset-0 bg-gradient-to-r from-foreground/5 via-foreground/3 to-transparent pointer-events-none"
                   initial={{ x: "-100%" }}
                   animate={{ x: isHovered ? "0%" : "-100%" }}
-                  transition={{ duration: 0.5, ease: EASE_PREMIUM }}
+                  transition={{ duration: 0.4, ease: EASE_PREMIUM }}
                 />
 
                 {/* Left Accent Line */}

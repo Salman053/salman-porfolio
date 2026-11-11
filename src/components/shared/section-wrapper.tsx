@@ -3,6 +3,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 interface SectionWrapperProps {
   children: React.ReactNode;
   className?: string;
@@ -10,33 +12,21 @@ interface SectionWrapperProps {
   stagger?: boolean;
 }
 
-export const SectionWrapper = ({
-  children,
-  className = "",
-  id,
-  stagger = true,
-}: SectionWrapperProps) => {
+export const SectionWrapper = ({ children, className = "", id, stagger = true }: SectionWrapperProps) => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: stagger ? 0.2 : 0,
-        delayChildren: 0.1,
+        duration: 0.6,
+        ease: EASE,
       },
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
   };
 
   return (
@@ -51,7 +41,7 @@ export const SectionWrapper = ({
       {React.Children.map(children, (child) => {
         if (React.isValidElement(child)) {
           return (
-            <motion.div variants={itemVariants as any}>
+            <motion.div variants={itemVariants} className="block">
               {child}
             </motion.div>
           );

@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { ShieldCheck, Activity, Sparkles, ArrowRight } from "lucide-react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const features = [
   {
@@ -37,12 +38,14 @@ const features = [
   },
 ];
 
-const EASE_PREMIUM = [0.22, 1, 0.36, 1] as  const;
-const EASE_SMOOTH = [0.16, 1, 0.3, 1] as  const;
+const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
+const EASE_SMOOTH = [0.16, 1, 0.3, 1] as const;
 
 const WhyHireMe = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(containerRef, { once: true, margin: "-15%" });
+  const prefersReducedMotion = useReducedMotion();
+  const animDuration = prefersReducedMotion ? 0.15 : 0.9;
 
   const stats = [
     { icon: ShieldCheck, text: "Trusted & Secure", delay: 0 },
@@ -57,45 +60,45 @@ const WhyHireMe = () => {
 
       <div ref={containerRef} className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-          
+
           {/* Left Column: Editorial Heading */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-5 flex flex-col justify-start"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: EASE_PREMIUM }}
+            transition={{ duration: animDuration, ease: EASE_PREMIUM }}
           >
-            <motion.span 
-              initial={{ opacity: 0, y: 16 }}
+            <motion.span
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 16 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.1, ease: EASE_SMOOTH }}
+              transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : 0.1, ease: EASE_SMOOTH }}
               className="text-xs font-semibold uppercase tracking-[0.35em] text-muted-foreground mb-6 block"
             >
               Our Philosophy
             </motion.span>
-            
-            <motion.h2 
-              initial={{ opacity: 0, y: 24 }}
+
+            <motion.h2
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 24 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, delay: 0.2, ease: EASE_PREMIUM }}
+              transition={{ duration: animDuration, delay: prefersReducedMotion ? 0 : 0.2, ease: EASE_PREMIUM }}
               className="text-4xl md:text-6xl lg:text-7xl font-normal font-serif tracking-tight leading-[0.95] mb-8"
             >
               Why partner <br />
               with <span className="italic font-light text-primary relative inline-block">
                 Salman.
-                <motion.span 
+                <motion.span
                   className="absolute -bottom-1 left-0 w-full h-px bg-primary/40"
                   initial={{ scaleX: 0 }}
                   animate={isInView ? { scaleX: 1 } : {}}
-                  transition={{ duration: 1.2, delay: 0.8, ease: EASE_PREMIUM }}
+                  transition={{ duration: prefersReducedMotion ? 0.2 : 1.2, delay: prefersReducedMotion ? 0 : 0.8, ease: EASE_PREMIUM }}
                 />
               </span>
             </motion.h2>
-            
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
+
+            <motion.p
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.35, ease: EASE_SMOOTH }}
+              transition={{ duration: 0.8, delay: prefersReducedMotion ? 0 : 0.35, ease: EASE_SMOOTH }}
               className="text-lg text-muted-foreground max-w-md leading-relaxed mb-12"
             >
               We do not just write code. We build digital assets designed to scale, perform, and leave an indelible impression.
@@ -106,14 +109,14 @@ const WhyHireMe = () => {
               {stats.map((stat, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: prefersReducedMotion ? 0 : -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.5 + stat.delay, ease: EASE_SMOOTH }}
-                  whileHover={{ x: 4 }}
+                  transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : 0.5 + stat.delay, ease: EASE_SMOOTH }}
+                  whileHover={prefersReducedMotion ? undefined : { x: 4 }}
                   className="group flex items-center gap-4 p-3 rounded-xl bg-foreground/5 backdrop-blur-sm border border-foreground/10 hover:border-primary/30 transition-colors cursor-default"
                 >
                   <motion.div
-                    whileHover={{ rotate: 8, scale: 1.1 }}
+                    whileHover={prefersReducedMotion ? undefined : { rotate: 8, scale: 1.1 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                     className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary"
                   >
@@ -128,20 +131,20 @@ const WhyHireMe = () => {
           </motion.div>
 
           {/* Right Column: Features List */}
-          <motion.div 
+          <motion.div
             className="lg:col-span-7"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: prefersReducedMotion ? 0 : 0.4 }}
           >
             <div className="border-t border-foreground/10">
               {features.map((feature, i) => (
-                <motion.div 
+                <motion.div
                   key={feature.num}
-                  initial={{ opacity: 0, y: 24 }}
+                  initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 24 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.7, delay: 0.5 + i * 0.08, ease: EASE_PREMIUM }}
-                  whileHover={{ backgroundColor: "hsl(var(--muted) / 0.4)" }}
+                  transition={{ duration: prefersReducedMotion ? 0.15 : 0.7, delay: prefersReducedMotion ? 0 : 0.5 + i * 0.08, ease: EASE_PREMIUM }}
+                  whileHover={prefersReducedMotion ? undefined : { backgroundColor: "hsl(var(--muted) / 0.4)" }}
                   className="relative py-9 md:py-10 border-b border-foreground/10 px-3 md:px-5 grid grid-cols-1 sm:grid-cols-12 gap-5 items-start group transition-colors duration-300 rounded-xl"
                 >
                   {/* Subtle left accent line on hover */}
@@ -155,31 +158,25 @@ const WhyHireMe = () => {
 
                   {/* Number Badge */}
                   <div className="sm:col-span-2 flex items-center">
-                    <motion.span 
+                    <span
                       className="text-sm font-mono text-muted-foreground tabular-nums group-hover:text-primary transition-colors duration-300"
-                      animate={{ scale: [1, 1.05, 1] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }}
                     >
                       {feature.num}
-                    </motion.span>
+                    </span>
                   </div>
 
                   {/* Content */}
                   <div className="sm:col-span-10">
-                    <motion.h3 
+                    <h3
                       className="text-lg md:text-xl lg:text-2xl font-serif text-foreground tracking-tight mb-2.5 group-hover:text-primary transition-colors duration-300"
-                      animate={{ x: [0, 3, 0] }}
-                      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 + i * 0.2 }}
                     >
                       {feature.title}
-                    </motion.h3>
-                    <motion.p 
+                    </h3>
+                    <p
                       className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-2xl group-hover:text-foreground/80 transition-colors duration-300"
-                      initial={{ opacity: 0.8 }}
-                      whileHover={{ opacity: 1 }}
                     >
                       {feature.desc}
-                    </motion.p>
+                    </p>
                   </div>
 
                   {/* Hover Arrow Indicator */}
@@ -197,26 +194,23 @@ const WhyHireMe = () => {
           </motion.div>
         </div>
 
-     
-
         {/* Subtle CTA Footer */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1.1, duration: 0.8 }}
+          transition={{ delay: prefersReducedMotion ? 0 : 1.1, duration: 0.8 }}
           className="pt-12 border-t border-foreground/10 flex flex-col md:flex-row items-center justify-between gap-6"
         >
-         
           <a
             href="#contact"
-            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-foreground/15 
-              text-sm font-medium uppercase tracking-widest hover:bg-foreground hover:text-background 
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-full border border-foreground/15
+              text-sm font-medium uppercase tracking-widest hover:bg-foreground hover:text-background
               transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
           >
-            Let's Collaborate
+            Let&apos;s Collaborate
             <motion.span
               className="inline-block"
-              animate={{ x: [0, 5, 0] }}
+              animate={prefersReducedMotion ? {} : { x: [0, 5, 0] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
             >
               →

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 
 const testimonials = [
   {
@@ -24,6 +25,7 @@ const testimonials = [
 
 export default function TestimonialSection() {
   const [current, setCurrent] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,7 +45,7 @@ export default function TestimonialSection() {
   return (
     <section id="testimonial" className="relative md:py-40 py-10 bg-background overflow-hidden">
       <div className="container mx-auto px-6 relative z-10">
-        
+
         {/* Label */}
         <div className="text-center md:mb-16">
           <span className="text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400">
@@ -56,16 +58,16 @@ export default function TestimonialSection() {
           <AnimatePresence mode="wait">
             <motion.div
               key={current}
-              initial={{ opacity: 0, y: 15 }}
+              initial={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -15 }}
+              transition={{ duration: prefersReducedMotion ? 0.15 : 0.5, ease: [0.16, 1, 0.3, 1] }}
               className="w-full flex flex-col items-center justify-center text-center"
             >
               <blockquote className="text-2xl md:text-4xl lg:text-5xl font-serif italic font-light tracking-tight leading-relaxed text-foreground max-w-4xl">
-                “{testimonials[current].text}”
+                &ldquo;{testimonials[current].text}&rdquo;
               </blockquote>
-              
+
               <cite className="not-italic mt-12 block">
                 <span className="text-xs font-mono uppercase tracking-[0.25em] text-primary">
                   {testimonials[current].name}
@@ -84,6 +86,7 @@ export default function TestimonialSection() {
           {/* Prev */}
           <button
             onClick={handlePrev}
+            aria-label="Previous testimonial"
             className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center text-foreground hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -99,6 +102,7 @@ export default function TestimonialSection() {
           {/* Next */}
           <button
             onClick={handleNext}
+            aria-label="Next testimonial"
             className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center text-foreground hover:bg-neutral-50 dark:hover:bg-neutral-900 transition-colors"
           >
             <ArrowRight className="w-4 h-4" />
