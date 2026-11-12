@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import SmoothScrollProvider from "@/provider/smooth-scroll-provider";
 import { Toaster } from "@/components/ui/sonner";
-
+/** ignore */
 import "@/styles/globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -119,8 +119,8 @@ const jsonLd = {
     "React",
     "TypeScript",
     "Node.js",
-    "Tailwind CSS",
     "JavaScript",
+    "Laravel",
   ],
 };
 
@@ -129,6 +129,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
@@ -141,7 +143,6 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Toaster />
           {/* <CustomCursor /> */}
-          {/* <InteractiveBackground /> */}
           <SmoothScrollProvider>{children}</SmoothScrollProvider>
         </ThemeProvider>
       </body>

@@ -1,215 +1,336 @@
 "use client";
 
-import { motion } from "framer-motion";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
+import {
+  motion,
+  motionValue,
+  useMotionValue,
+  useMotionValueEvent,
+  useReducedMotion,
+  useSpring,
+  type MotionValue,
+  type Variants,
+} from "framer-motion";
+import { CursorGlowBackground, useFinePointer } from "../animated/cursor-glow-background";
 
-// Premium easing curves
-const EASE_PREMIUM = [0.22, 1, 0.36, 1] as const;
-const EASE_OUT = [0.16, 1, 0.3, 1] as const;
+type Ease = [number, number, number, number];
+const EASE: Ease = [0.22, 1, 0.36, 1];
 
-// Static SVG decorations — zero RAF cost, no infinite JS animation.
-const EcosystemArt = () => (
-  <svg viewBox="0 0 400 500" className="w-full h-full" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ecosystem architecture">
-    <defs>
-      <pattern id="eco-grid" width="30" height="30" patternUnits="userSpaceOnUse">
-        <path d="M 30 0 L 0 0 0 30" fill="none" stroke="currentColor" strokeOpacity="0.06" />
-      </pattern>
-      <radialGradient id="eco-glow" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="currentColor" stopOpacity="0.15" />
-        <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
-      </radialGradient>
-    </defs>
-    <rect width="100%" height="100%" fill="url(#eco-grid)" />
-    <circle cx="200" cy="250" r="180" fill="url(#eco-glow)" className="text-primary/20" />
+/* -------------------------------------------------------------------------- */
+/*  Node graph (hero-specific)                                                 */
+/* -------------------------------------------------------------------------- */
+const NODES = [
+  { x: 90, y: 90, r: 5, depth: 0.6 },
+  { x: 220, y: 60, r: 8, depth: 1.0 },
+  { x: 330, y: 150, r: 5, depth: 0.7 },
+  { x: 170, y: 210, r: 11, depth: 1.5 },
+  { x: 300, y: 290, r: 6, depth: 0.9 },
+  { x: 70, y: 320, r: 5, depth: 0.5 },
+];
+const LINKS: [number, number][] = [
+  [0, 1],
+  [1, 2],
+  [1, 3],
+  [3, 2],
+  [3, 4],
+  [3, 5],
+];
 
-    {/* Floating nodes & cards */}
-    <rect x="40" y="120" width="100" height="140" rx="16" fill="currentColor" fillOpacity="0.08" stroke="currentColor" strokeOpacity="0.15" strokeWidth="2" />
-    <line x1="140" y1="190" x2="220" y2="210" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2" strokeDasharray="6 4" />
-    <circle cx="280" cy="160" r="24" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2" />
-    <circle cx="280" cy="160" r="10" fill="currentColor" fillOpacity="0.3" />
-    <path d="M 80 380 L 160 300 L 240 340 L 320 280" fill="none" stroke="currentColor" strokeOpacity="0.15" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="320" cy="280" r="6" fill="currentColor" fillOpacity="0.4" />
-    <rect x="120" y="200" width="160" height="100" rx="20" fill="currentColor" fillOpacity="0.05" stroke="currentColor" strokeOpacity="0.1" strokeWidth="2" />
-  </svg>
-);
+function NodeGraph({
+  animate,
+  nx,
+  ny,
+}: {
+  animate: boolean;
+  nx: MotionValue<number>;
+  ny: MotionValue<number>;
+}) {
+  const pos = useMemo(
+    () => NODES.map((n) => ({ x: motionValue(n.x), y: motionValue(n.y) })),
+    []
+  );
 
-const InterfaceArt = () => (
-  <svg viewBox="0 0 400 450" className="w-full h-full" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Interface layout">
-    <defs>
-      <linearGradient id="ui-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="currentColor" stopOpacity="0.2" />
-        <stop offset="100%" stopColor="currentColor" stopOpacity="0.05" />
-      </linearGradient>
-      <filter id="ui-blur" x="-20%" y="-20%" width="140%" height="140%">
-        <feGaussianBlur stdDeviation="12" />
-      </filter>
-    </defs>
-
-    {/* Soft gradient blob */}
-    <circle cx="200" cy="225" r="140" fill="url(#ui-grad)" filter="url(#ui-blur)" className="text-primary" />
-
-    {/* Device frame & UI blocks */}
-    <rect x="100" y="80" width="200" height="280" rx="24" fill="currentColor" fillOpacity="0.06" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2" />
-    <rect x="115" y="110" width="170" height="12" rx="6" fill="currentColor" fillOpacity="0.15" />
-    <rect x="115" y="135" width="100" height="12" rx="6" fill="currentColor" fillOpacity="0.1" />
-    <rect x="115" y="160" width="140" height="12" rx="6" fill="currentColor" fillOpacity="0.1" />
-    <rect x="115" y="200" width="70" height="90" rx="12" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-    <rect x="215" y="200" width="70" height="90" rx="12" fill="currentColor" fillOpacity="0.12" stroke="currentColor" strokeOpacity="0.25" strokeWidth="2" />
-
-    {/* Orbit ring */}
-    <circle cx="200" cy="225" r="160" fill="none" stroke="currentColor" strokeOpacity="0.08" strokeWidth="2" strokeDasharray="8 12" />
-
-    {/* Pulsing accent (static) */}
-    <circle cx="285" cy="310" r="8" fill="currentColor" fillOpacity="0.5" className="text-primary" />
-  </svg>
-);
-
-export default function HeroText() {
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const animDuration = prefersReducedMotion ? 0.15 : 1.2;
-  const reducedMotionDuration = Math.max(0.15, Math.min(0.5, animDuration * 0.5));
+  const update = () => {
+    NODES.forEach((n, i) => {
+      pos[i].x.set(n.x + nx.get() * n.depth * 46);
+      pos[i].y.set(n.y + ny.get() * n.depth * 46);
+    });
+  };
+  useMotionValueEvent(nx, "change", update);
+  useMotionValueEvent(ny, "change", update);
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-background pt-32 pb-20">
-      {/* CSS-only ambient background — grid pattern + radial glow, no canvas RAF loop */}
+    <svg
+      viewBox="0 0 400 380"
+      className="h-full w-full overflow-visible text-foreground"
+      fill="none"
+      aria-hidden="true"
+    >
+      {LINKS.map(([a, b], i) => (
+        <motion.line
+          key={`${a}-${b}`}
+          x1={pos[a].x}
+          y1={pos[a].y}
+          x2={pos[b].x}
+          y2={pos[b].y}
+          stroke="currentColor"
+          strokeOpacity={0.24}
+          strokeWidth={1}
+          initial={animate ? { pathLength: 0 } : false}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.4, delay: 1.1 + i * 0.12, ease: EASE }}
+        />
+      ))}
+      {NODES.map((n, i) => (
+        <motion.circle
+          key={i}
+          cx={pos[i].x}
+          cy={pos[i].y}
+          r={n.r}
+          className={i === 3 ? "fill-primary" : "fill-foreground"}
+          fillOpacity={i === 3 ? 0.9 : 0.35}
+          initial={animate ? { opacity: 0, scale: 0.4 } : false}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.9 + i * 0.1, ease: EASE }}
+        />
+      ))}
+    </svg>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Magnetic (hero-specific CTA wrapper)                                       */
+/* -------------------------------------------------------------------------- */
+function Magnetic({
+  children,
+  enabled,
+}: {
+  children: ReactNode;
+  enabled: boolean;
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 200, damping: 16, mass: 0.3 });
+  const sy = useSpring(y, { stiffness: 200, damping: 16, mass: 0.3 });
+
+  const onMove = (e: ReactPointerEvent<HTMLDivElement>) => {
+    if (!enabled) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    x.set((e.clientX - (r.left + r.width / 2)) * 0.28);
+    y.set((e.clientY - (r.top + r.height / 2)) * 0.28);
+  };
+  const onLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      style={{ x: sx, y: sy }}
+      onPointerMove={onMove}
+      onPointerLeave={onLeave}
+      className="inline-block p-3 -m-3"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/*  Hero                                                                       */
+/* -------------------------------------------------------------------------- */
+export default function HeroText() {
+  const reduce = useReducedMotion();
+  const motionOn = !reduce;
+  const finePointer = useFinePointer();
+  const interactive = motionOn && finePointer;
+
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Pointer signal for the node graph parallax.
+  const nx = useMotionValue(0);
+  const ny = useMotionValue(0);
+  const snx = useSpring(nx, { stiffness: 50, damping: 16 });
+  const sny = useSpring(ny, { stiffness: 50, damping: 16 });
+
+  // Feed pointer coords into the node graph (its own small listener; the
+  // heavy lift for the glow lives inside <CursorGlowBackground />).
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || !interactive) return;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      nx.set((e.clientX - r.left) / r.width - 0.5);
+      ny.set((e.clientY - r.top) / r.height - 0.5);
+    };
+    const onLeave = () => {
+      nx.set(0);
+      ny.set(0);
+    };
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerleave", onLeave);
+    return () => {
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerleave", onLeave);
+    };
+  }, [interactive, nx, ny]);
+
+  const line: Variants = {
+    hidden: { y: "108%" },
+    show: (i: number) => ({
+      y: "0%",
+      transition: { duration: 1.1, delay: 0.15 + i * 0.14, ease: EASE },
+    }),
+  };
+  const fade: Variants = {
+    hidden: { opacity: 0 },
+    show: (delay: number) => ({
+      opacity: 1,
+      transition: { duration: 0.8, delay, ease: "easeOut" },
+    }),
+  };
+  const initial = motionOn ? "hidden" : false;
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative flex min-h-screen flex-col overflow-hidden bg-background pt-28 pb-10 md:pt-32 md:pb-14"
+    >
+      {/* Reusable decorative background */}
+      <CursorGlowBackground
+        showlitGridImage={true}
+        targetRef={sectionRef}
+        enabled={interactive}
+      />
+
+      {/* Node graph, top right */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse at top right, var(--color-primary) 0%, transparent 55%), radial-gradient(ellipse at bottom left, var(--color-primary) 0%, transparent 45%)",
-          backgroundSize: "100% 100%",
-        }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px), linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 5%, transparent) 1px, transparent 1px)",
-          backgroundSize: "30px 30px",
-        }}
-      />
+        className="pointer-events-none absolute right-6 top-28 z-0 hidden h-[22rem] w-[24rem] opacity-80 lg:block xl:right-16"
+      >
+        <NodeGraph animate={motionOn} nx={snx} ny={sny} />
+      </div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Top Text Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-24 md:mb-32">
-          {/* Main Headline */}
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: animDuration, ease: EASE_PREMIUM }}
-            className="lg:col-span-9"
-          >
-            <h1 className="text-[4rem] sm:text-[6rem] md:text-[9rem] lg:text-[11rem] leading-[0.9] font-serif tracking-tight text-foreground flex flex-col">
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: reducedMotionDuration, ease: EASE_PREMIUM, delay: 0.2 }}
-                className="block"
-              >
-                Meet Salman
-              </motion.span>
+      <div className="relative z-10 mx-auto flex w-full max-w-[90rem] flex-1 flex-col px-6 md:px-12">
+        {/* Availability */}
+        <motion.div
+          variants={fade}
+          custom={0.1}
+          initial={initial}
+          animate="show"
+          className="flex items-center gap-3 text-sm text-muted-foreground"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+          </span>
+          Available for new projects
+        </motion.div>
 
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: reducedMotionDuration, ease: EASE_PREMIUM, delay: 0.4 }}
-                className="flex items-center gap-6 md:gap-12 ml-0 md:ml-24"
-              >
-                <motion.span
-                  animate={!prefersReducedMotion ? { rotate: [0, 8, -8, 0] } : {}}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                  className="font-sans italic text-muted-foreground font-light text-[3rem] sm:text-[5rem] md:text-[7rem] lg:text-[9rem]"
-                >
-                  /
-                </motion.span>
-                Khan
-              </motion.span>
-            </h1>
-          </motion.div>
+        {/* Headline */}
+        <h1 className="mt-10 flex flex-col font-serif font-normal tracking-[-0.035em] text-foreground md:mt-16">
+          <span className="block overflow-hidden pb-[0.12em] pr-[0.05em]">
+            <motion.span
+              custom={0}
+              variants={line}
+              initial={initial}
+              animate="show"
+              className="block text-[clamp(3.5rem,13vw,11.5rem)] leading-[0.92]"
+            >
+              Meet Salman
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden pb-[0.12em] pr-[0.05em] md:ml-[8vw]">
+            <motion.span
+              custom={1}
+              variants={line}
+              initial={initial}
+              animate="show"
+              className="flex items-baseline gap-[0.12em] text-[clamp(3.5rem,13vw,11.5rem)] leading-[0.92]"
+            >
+              <span className="font-sans font-extralight italic text-primary">
+                /
+              </span>
+              Khan
+            </motion.span>
+          </span>
+        </h1>
 
-          {/* Side Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.6, ease: EASE_OUT }}
-            className="lg:col-span-3 flex flex-col justify-end lg:pb-12"
-          >
-            <div className="border-t border-foreground/10 pt-6">
-              <p className="text-xs font-semibold tracking-[0.2em] uppercase text-muted-foreground mb-4">Focus</p>
-              <p className="text-lg md:text-xl leading-relaxed text-foreground font-serif">
-                Specialized in crafting scalable ecosystems and premium digital experiences.
-              </p>
+        <div className="flex-1" />
+
+        {/* Info row */}
+        <motion.div
+          variants={fade}
+          custom={0.9}
+          initial={initial}
+          animate="show"
+          className="mt-16 grid grid-cols-1 gap-10 border-t border-foreground/15 pt-8 md:mt-24 lg:grid-cols-12 lg:gap-8"
+        >
+          <p className="max-w-[34ch] font-serif text-xl leading-relaxed text-foreground md:text-2xl lg:col-span-5">
+            I design and build scalable ecosystems and premium digital
+            experiences.
+          </p>
+
+          <dl className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-4">
+            <div>
+              <dt className="text-sm font-medium text-foreground">Systems</dt>
+              <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Architecture, APIs and platforms that grow with the product.
+              </dd>
             </div>
+            <div>
+              <dt className="text-sm font-medium text-foreground">
+                Interfaces
+              </dt>
+              <dd className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                Fast, considered front ends that feel right on every device.
+              </dd>
+            </div>
+          </dl>
 
-            <div className="mt-12 flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 lg:col-span-3 lg:justify-end">
+            <Magnetic enabled={interactive}>
               <motion.a
                 href="#contact"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative px-8 py-3 rounded-full bg-foreground text-background text-sm font-bold uppercase tracking-widest overflow-hidden transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2"
+                whileHover={motionOn ? { scale: 1.03 } : undefined}
+                whileTap={motionOn ? { scale: 0.98 } : undefined}
+                className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-colors hover:bg-primary hover:text-primary-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Start a Project
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </span>
-                <motion.div
-                  className="absolute inset-0 bg-white/10"
-                  initial={{ x: "-100%" }}
-                  whileHover={{ x: 0 }}
-                  transition={{ duration: 0.4, ease: "circOut" }}
-                />
+                Start a project
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  className="transition-transform group-hover:translate-x-1"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
               </motion.a>
-            </div>
-          </motion.div>
-        </div>
+            </Magnetic>
 
-        {/* Editorial Illustrations */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-16 items-start">
-          {/* Left Large Pill */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1.5, delay: 0.3, ease: EASE_PREMIUM }}
-            className="md:col-span-5 h-[50vh] md:h-[600px] relative rounded-[3rem] overflow-hidden bg-muted/30 border border-foreground/5 backdrop-blur-sm"
-          >
-            <div className="w-full h-full text-foreground">
-              <EcosystemArt />
-            </div>
-          </motion.div>
-
-          {/* Center Space / Detail */}
-          <div className="md:col-span-3 hidden md:flex flex-col items-center justify-center h-full pt-32">
-            <motion.div
-              animate={!prefersReducedMotion ? { rotate: 360 } : {}}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="w-32 h-32 border border-dashed border-foreground/20 rounded-full flex items-center justify-center relative"
+            <a
+              href="#work"
+              className="rounded-full px-5 py-3.5 text-sm font-medium text-foreground underline decoration-foreground/30 underline-offset-4 transition-colors hover:decoration-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <motion.div
-                animate={!prefersReducedMotion ? { scale: [1, 1.3, 1], opacity: [0.4, 0.9, 0.4] } : {}}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                className="w-2 h-2 bg-primary rounded-full absolute -top-1 shadow-[0_0_12px_rgba(var(--primary),0.5)]"
-              />
-              <span className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground font-medium text-center leading-tight select-none">
-                Iterate <br /> & Scale
-              </span>
-            </motion.div>
+              See selected work
+            </a>
           </div>
-
-          {/* Right Floating Pill */}
-          <motion.div
-            initial={{ opacity: 0, y: 80, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 1.5, delay: 0.5, ease: EASE_PREMIUM }}
-            className="md:col-span-4 h-[40vh] md:h-[450px] relative rounded-[3rem] overflow-hidden md:mt-40 bg-muted/30 border border-foreground/5 backdrop-blur-sm"
-          >
-            <div className="w-full h-full text-foreground">
-              <InterfaceArt />
-            </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

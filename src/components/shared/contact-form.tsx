@@ -26,19 +26,19 @@ const AmbientParticles = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationFrame: number;
     const particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
-    
+
     const resize = () => {
       canvas.width = canvas.offsetWidth * window.devicePixelRatio;
       canvas.height = canvas.offsetHeight * window.devicePixelRatio;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     };
-    
+
     const init = () => {
       resize();
       for (let i = 0; i < 20; i++) {
@@ -55,27 +55,27 @@ const AmbientParticles = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
-      
+
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-        
+
         if (p.x < 0 || p.x > canvas.offsetWidth) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.offsetHeight) p.vy *= -1;
-        
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(var(--primary), ${p.opacity})`;
         ctx.fill();
       });
-      
+
       animationFrame = requestAnimationFrame(animate);
     };
 
     init();
     animate();
     window.addEventListener("resize", resize);
-    
+
     return () => {
       cancelAnimationFrame(animationFrame);
       window.removeEventListener("resize", resize);
@@ -83,8 +83,8 @@ const AmbientParticles = () => {
   }, []);
 
   return (
-    <canvas 
-      ref={canvasRef} 
+    <canvas
+      ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none opacity-40"
       aria-hidden="true"
     />
@@ -92,32 +92,32 @@ const AmbientParticles = () => {
 };
 
 // Floating label input component
-const FloatingInput = ({ 
-  label, 
-  id, 
-  type = "text", 
-  register, 
-  error, 
-  placeholder, 
+const FloatingInput = ({
+  label,
+  id,
+  type = "text",
+  register,
+  error,
+  placeholder,
   rows,
-  isTextarea = false 
+  isTextarea = false
 }: any) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hasValue, setHasValue] = useState(false);
-  
+
   return (
     <div className="relative group overflow-hidden">
-      <label 
+      <label
         htmlFor={id}
         className={`absolute left-4 transition-all duration-300 pointer-events-none
-          ${isFocused || hasValue 
-            ? "top-2 text-[10px] font-medium  tracking-wide text-primary" 
+          ${isFocused || hasValue
+            ? "top-2 text-[10px] font-medium  tracking-wide text-primary"
             : "top-4 text-sm font-black  tracking-wide text-muted-foreground"
           }`}
       >
         {label}
       </label>
-      
+
       {isTextarea ? (
         <textarea
           id={id}
@@ -131,9 +131,9 @@ const FloatingInput = ({
           className={`w-full  border rounded-2xl p-4 pt-8 
             text-base font-medium text-foreground placeholder-transparent outline-none 
             transition-all duration-300 resize-none
-            ${error 
-              ? "border-red-500/50 focus:ring-2 focus:ring-red-500/30" 
-              : "border-foreground/10 focus:border-primary/40 focus:ring-2 focus:ring-primary/20 hover:border-foreground/20"
+            ${error
+              ? "border-red-500/50  focus:ring-red-500/30"
+              : "border-foreground/10 focus:border-primary/40  focus:ring-primary/20 hover:border-foreground/20"
             }`}
           placeholder={placeholder}
         />
@@ -149,18 +149,18 @@ const FloatingInput = ({
           className={`w-full   border rounded-2xl p-4 pt-8 
             text-base font-medium text-foreground placeholder-transparent outline-none 
             transition-all duration-300
-            ${error 
-              ? "border-red-500/50 focus:ring-2 focus:ring-red-500/30" 
-              : "border-foreground/10 focus:border-primary/40 focus:ring-2 focus:ring-primary/20 hover:border-foreground/20"
+            ${error
+              ? "border-red-500/50  focus:ring-red-500/30"
+              : "border-foreground/10 focus:border-primary/40  focus:ring-primary/20 hover:border-foreground/20"
             }`}
           placeholder={placeholder}
         />
       )}
-      
-      
-      
+
+
+
       {error && (
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
           className="mt-2 text-xs text-red-500 flex items-center gap-1.5"
@@ -187,7 +187,7 @@ export default function AnimatedContactForm() {
 
   const onSubmit = async (v: Values) => {
     setFormStatus("sending");
-    
+
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -200,11 +200,11 @@ export default function AnimatedContactForm() {
       if (!response.ok) {
         throw new Error("Failed to send message");
       }
-      
+
       setFormStatus("success");
       await controls.start({ scale: [1, 1.02, 1], transition: { duration: 0.4 } });
       reset();
-      
+
       // Reset status after delay
       setTimeout(() => setFormStatus("idle"), 4000);
     } catch (error) {
@@ -217,15 +217,15 @@ export default function AnimatedContactForm() {
   // Success animation variants
   const successVariants = {
     hidden: { opacity: 0, scale: 0.9, y: 20 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
+    visible: {
+      opacity: 1,
+      scale: 1,
       y: 0,
       transition: { duration: 0.5, ease: EASE_PREMIUM }
     },
-    exit: { 
-      opacity: 0, 
-      scale: 0.95, 
+    exit: {
+      opacity: 0,
+      scale: 0.95,
       y: -10,
       transition: { duration: 0.3 }
     }
@@ -234,7 +234,7 @@ export default function AnimatedContactForm() {
   return (
     <section id="contact-form" className="relative ">
       {/* Ambient particle background */}
-      
+
 
       <div className="relative z-10">
         <AnimatePresence mode="wait">
@@ -256,8 +256,8 @@ export default function AnimatedContactForm() {
               >
                 <CheckCircle className="w-10 h-10 text-primary" />
               </motion.div>
-              
-              <motion.h3 
+
+              <motion.h3
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -265,8 +265,8 @@ export default function AnimatedContactForm() {
               >
                 Message Received
               </motion.h3>
-              
-              <motion.p 
+
+              <motion.p
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -274,7 +274,7 @@ export default function AnimatedContactForm() {
               >
                 Thank you for reaching out. I'll review your project brief and respond within 24 hours.
               </motion.p>
-              
+
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -294,10 +294,10 @@ export default function AnimatedContactForm() {
             </motion.div>
           ) : (
             // ===== FORM STATE =====
-            <motion.form 
+            <motion.form
               key="form"
-              ref={formRef} 
-              onSubmit={handleSubmit(onSubmit)} 
+              ref={formRef}
+              onSubmit={handleSubmit(onSubmit)}
               className="space-y-8"
               animate={controls}
             >
@@ -353,7 +353,7 @@ export default function AnimatedContactForm() {
                   className={`w-full py-5 md:py-6 rounded-3xl font-black uppercase tracking-[0.35em]  hover:text-white
                     transition-all duration-300 relative overflow-hidden group
                     ${isSubmitting || (formStatus as string) === "success"
-                      ? "bg-foreground/20 text-muted-foreground cursor-not-allowed" 
+                      ? "bg-foreground/20 text-muted-foreground cursor-not-allowed"
                       : "bg-foreground text-background hover:bg-primary shadow-lg shadow-primary/10 hover:shadow-primary/20"
                     }`}
                 >
@@ -364,7 +364,7 @@ export default function AnimatedContactForm() {
                     whileHover={{ x: "200%" }}
                     transition={{ duration: 0.6 }}
                   />
-                  
+
                   <span className="relative text-[10px] md:text-sm z-10 flex items-center  justify-center gap-3">
                     {isSubmitting ? (
                       <>
@@ -386,7 +386,7 @@ export default function AnimatedContactForm() {
                 </motion.button>
               </Magnetic>
 
-             
+
             </motion.form>
           )}
         </AnimatePresence>
